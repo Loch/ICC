@@ -13,72 +13,75 @@ public class Marrowgar extends ObjetoComMovimento {
 
     Sprite sprite;
     int velocidade;
-    int vida;
+    int vidas;
 
     public Marrowgar(int x, int y, int velocidade) {
 
-        this.vida = 639425965;
-        this.velocidade = velocidade;
+        this.vidas = 639425965;
+        this.velocidade = 2;
         this.x = x;
         this.y = y;
-        try {            
-            this.sprite = new Sprite("resources/MarrowgarTest.png", 1, 200,150);
+        try {
+            this.sprite = new Sprite("resources/MarrowgarTest.png", 1, 200, 150);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
     }
 
-    public void step(long timeElapsed){
-
+    public void step(long timeElapsed) {
     }
 
     public void draw(Graphics g) {
-        if(this.estaMorto()){
+        if (this.estaMorto()) {
             return; //Não desenha nada;
         }
         g.setColor(Color.white);
-        g.drawString(this.vida+"", this.x+5, this.y-15);
-        
-        this.sprite.draw(g, this.x, this.y);        
+        g.drawString(this.vidas + "", this.x + 5, this.y - 15);
+
+        this.sprite.draw(g, this.x, this.y);
     }
 
-    public void perdeVida(int numPontos){
-        this.vida -= numPontos;
+    public void perdeVida(int numPontos) {
+        this.vidas -= numPontos;
     }
 
-    public boolean estaMorto(){
-        return (this.vida <= 0);
+    public boolean estaMorto() {
+        return (this.vidas <= 0);
     }
 
-    public Rectangle getRetangulo(){
-        return new Rectangle(this.x, this.y, 32, 32);
+    public Rectangle getRetangulo() {
+        return new Rectangle(this.x, this.y, 150, 100);
     }
 
     public void persegueObjetoMaisProximo(GameObject objeto1, GameObject objeto2) {
-        double distanciaObjeto1 = this.calculaDistanciaAte(objeto1);
-        double distanciaObjeto2 = this.calculaDistanciaAte(objeto2);
-        if(distanciaObjeto1 < distanciaObjeto2){
-            this.persegue(objeto1);
-        } else {
-            this.persegue(objeto2);
+            double distanciaObjeto1 = this.calculaDistanciaAte(objeto1);
+            double distanciaObjeto2 = this.calculaDistanciaAte(objeto2);
+            
+            if(this.vidas < 639425965){
+            
+            if (distanciaObjeto1 < distanciaObjeto2) {
+                this.persegue(objeto1);
+            } else {
+                this.persegue(objeto2);
+            }
         }
     }
-    
+
     /**
      * http://www.mundoeducacao.com.br/matematica/distancia-entre-dois-pontos.htm
      * a distância entre dois pontos é a hipotenusa do triangulo formado entre os pontos.
      * a fórmula é:
      * distancia² = (x2-x1)² + (y2-y1)²
      */
-    public double calculaDistanciaAte(GameObject objeto){
+    public double calculaDistanciaAte(GameObject objeto) {
         int x1 = this.getX();
-        int y1 = this.getY();        
+        int y1 = this.getY();
         int x2 = objeto.getX();
         int y2 = objeto.getY();
-        
+
         int x = x2 - x1;
         int y = y2 - y1;
-        
+
         //Pow é a função para elevar um número a uma potencia.
         double distanciaAoQuadrado = Math.pow(x, 2) + Math.pow(y, 2);
         //Agora, faz a raiz da distância ao quadrado para ter a distância.
@@ -99,56 +102,55 @@ public class Marrowgar extends ObjetoComMovimento {
      * y do perseguidor for Maior -> Perseguidor está abaixo
      * y do perseguidor for Menor -> Perseguidor está acima
      */
-    public void persegue(GameObject objeto){
+    public void persegue(GameObject objeto) {
         int xPerseguido = objeto.getX();
         int yPerseguido = objeto.getY();
 
-        if(this.x < xPerseguido && this.y < yPerseguido){
+        if (this.x < xPerseguido && this.y < yPerseguido) {
             //NaveMini Está à esquerda e acima
             //Nave Perseguida está abaixo e à direita.
             this.moveDireitaBaixo(this.velocidade);
-            this.sprite.setCurrAnimFrame(4);
+            this.sprite.setCurrAnimFrame(1);
 
-        } else if(this.x < xPerseguido && this.y > yPerseguido){
+        } else if (this.x < xPerseguido && this.y > yPerseguido) {
             //NaveMini Está à esquerda e abaixo
             //Nave Perseguida está acima e à direita.
             this.moveDireitaCima(this.velocidade);
-            this.sprite.setCurrAnimFrame(2);
+            this.sprite.setCurrAnimFrame(1);
 
-        } else if(this.x > xPerseguido && this.y < yPerseguido){
+        } else if (this.x > xPerseguido && this.y < yPerseguido) {
             //NaveMini Está à direita e acima
             //Nave Perseguida está abaixo e à esquerda.
             this.moveEsquerdaBaixo(this.velocidade);
-            this.sprite.setCurrAnimFrame(6);
+            this.sprite.setCurrAnimFrame(1);
 
-        } else if(this.x > xPerseguido && this.y > yPerseguido){
+        } else if (this.x > xPerseguido && this.y > yPerseguido) {
             //NaveMini Está à direita e abaixo
             //Nave Perseguida está acima e à esquerda.
             this.moveEsquerdaCima(this.velocidade);
-            this.sprite.setCurrAnimFrame(8);
+            this.sprite.setCurrAnimFrame(1);
 
-        } if(this.x < xPerseguido && this.y == yPerseguido){            
+        }
+        if (this.x < xPerseguido && this.y == yPerseguido) {
             //Nave Perseguida está a direita.
             this.moveDireita(this.velocidade);
-            this.sprite.setCurrAnimFrame(3);
+            this.sprite.setCurrAnimFrame(1);
 
-        } else if(this.x > xPerseguido && this.y == yPerseguido){
+        } else if (this.x > xPerseguido && this.y == yPerseguido) {
             //Nave Perseguida está a esquerda.
             this.moveEsquerda(this.velocidade);
-            this.sprite.setCurrAnimFrame(7);
+            this.sprite.setCurrAnimFrame(1);
 
-        } else if(this.x == xPerseguido && this.y < yPerseguido){
+        } else if (this.x == xPerseguido && this.y < yPerseguido) {
             //Nave Perseguida está abaixo
             this.moveBaixo(this.velocidade);
-            this.sprite.setCurrAnimFrame(5);
+            this.sprite.setCurrAnimFrame(1);
 
-        } else if(this.x == xPerseguido && this.y > yPerseguido){
+        } else if (this.x == xPerseguido && this.y > yPerseguido) {
             //Nave Perseguida está acima
             this.moveCima(this.velocidade);
             this.sprite.setCurrAnimFrame(1);
         }
 
     }
-
-
 }

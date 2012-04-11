@@ -35,8 +35,8 @@ public class Warrior extends ObjetoComMovimento {
     public void step(long timeElapsed){
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
         if(this.estaMorto()){
-            if( teclado.keyDown( Keys.R ) ){
-                this.vida += 27856;
+            if( teclado.keyDown( Keys.R) ){
+                this.vida += 77856;
             }
         }
         
@@ -82,7 +82,7 @@ public class Warrior extends ObjetoComMovimento {
     public void draw(Graphics g) {
         if(this.estaMorto()){
             g.setColor(Color.red);
-            g.drawString("O Mage morreu", this.x+5, this.y-15);
+            g.drawString("O Warrior morreu", this.x+5, this.y-15);
             g.drawString("Pressione R para continuar", this.x+5, this.y);
             return;
         }
@@ -147,7 +147,15 @@ public class Warrior extends ObjetoComMovimento {
 
    
 
-    //public Rectangle getRetangulo(){
-        //return new Rectangle(this.x+4, this.y+4, 56, 56);
-   // }
+    public Rectangle getRetangulo(){
+        return new Rectangle(this.x+4, this.y+4, 75,45);
+    }
+    
+    public void heal (int numPontos){
+        if(this.vida > 77000){
+        return;
+        
+        }else {this.vida += numPontos;
+    }
+}
 }

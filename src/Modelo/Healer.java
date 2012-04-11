@@ -46,35 +46,35 @@ public class Healer extends ObjetoComMovimento {
 
         if( teclado.keyDown( Keys.J ) && teclado.keyDown( Keys.I) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerdaCima(12);
+            this.moveEsquerdaCima(5);
 
         } else if ( teclado.keyDown( Keys.J ) && teclado.keyDown( Keys.K) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerdaBaixo(12);
+            this.moveEsquerdaBaixo(5);
 
         } else if ( teclado.keyDown( Keys.L) && teclado.keyDown( Keys.I) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveDireitaCima(12);
+            this.moveDireitaCima(5);
 
         } else if ( teclado.keyDown( Keys.L ) && teclado.keyDown( Keys.K) ){
             this.sprite.setCurrAnimFrame(1);
-           this.moveDireitaBaixo(12);
+           this.moveDireitaBaixo(5);
 
         } else if( teclado.keyDown( Keys.L ) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveDireita(12);
+            this.moveDireita(5);
 
         } else if( teclado.keyDown( Keys.J ) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerda(12);
+            this.moveEsquerda(5);
 
         } else if( teclado.keyDown( Keys.I ) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveCima(12);
+            this.moveCima(5);
 
         } else if( teclado.keyDown( Keys.K ) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveBaixo(12);
+            this.moveBaixo(5);
 
         }
         
@@ -95,6 +95,9 @@ public class Healer extends ObjetoComMovimento {
 
     public void perdeVida(int numPontos){
         this.vida -= numPontos;
+    }
+    public void heal (int numPontos){
+        this.vida += numPontos;
     }
 
     public boolean estaMorto(){
