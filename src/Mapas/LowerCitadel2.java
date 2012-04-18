@@ -1,6 +1,5 @@
 package Mapas;
 
-
 import Boss.Lady;
 import Boss.Marrowgar;
 import Modelo.Direcao;
@@ -21,174 +20,206 @@ import javaPlayExtras.CenarioComColisao;
 import javax.swing.JOptionPane;
 
 public class LowerCitadel2 implements GameStateController {
-  
-  private Hunter hunter;
-  ArrayList<Magias> tirosJogador;
-  private Healer healer;
-  private Warrior warrior;
-  private CenarioComColisao cenario;
-  private int vida =2;
-  private Lady lady;
+
+    private Hunter hunter;
+    ArrayList<Magias> tirosJogador;
+    private Healer healer;
+    private Warrior warrior;
+    private CenarioComColisao cenario;
+    private int vida = 2;
+    private Lady lady;
     ArrayList<Heal> healJogador;
-  
+    Portal portal;
 
-  
+    public void load() {
+        this.hunter = new Hunter();
+        this.lady = new Lady(800, 500, 2);
+        this.healer = new Healer();
+        this.tirosJogador = new ArrayList<Magias>();
+        this.warrior = new Warrior();
+        this.healJogador = new ArrayList<Heal>();
+        this.portal = new Portal (800, 400);
 
-  public void load() {    
-    this.hunter = new Hunter();
-    this.lady = new Lady(800,500, 2);
-    this.healer = new Healer();
-    this.tirosJogador = new ArrayList<Magias>();
-    this.warrior = new Warrior();
-    
-     try {            
-            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel2.scn");                        
+        try {
+            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel2.scn");
         } catch (Exception ex) {
-           System.out.println("Imagem não encontrada: " + ex.getMessage());
-       }
+            System.out.println("Imagem não encontrada: " + ex.getMessage());
+        }
 
-   
-  }
 
-  public void step(long timeElapsed) {     
-    this.hunter.step(timeElapsed);
-    this.lady.step(timeElapsed);
-    this.healer.step(timeElapsed);
-    this.lancaTirosJogador();
-    this.warrior.step(timeElapsed);
-    this.cenario.step(timeElapsed);
- 
-    for (Magias magia : this.tirosJogador) {
+    }
+
+    public void step(long timeElapsed) {
+        this.hunter.step(timeElapsed);
+        this.lady.step(timeElapsed);
+        this.healer.step(timeElapsed);
+        this.lancaTirosJogador();
+        this.warrior.step(timeElapsed);
+        this.cenario.step(timeElapsed);
+
+        for (Magias magia : this.tirosJogador) {
             magia.step(timeElapsed);
         }
-    
 
-    lady.persegueObjetoMaisProximo(this.hunter , this.warrior);
-     
-  
-    this.verificaColisoesComInimigos();
-    this.verificaColisaoComTiros();
-    this.lady.estaMorto();
-
-    
-   // if( this.jogador.temColisao( this.chegada.getRectangle() )){
-    //  GameEngine.getInstance().setNextGameStateController( 200 );
-   // }
-
-  }
-
-  public void draw(Graphics g) {
-   g.setColor(Color.BLACK);
-    g.fillRect(0, 0,1024, 760);
+        for (Heal heal : this.healJogador) {
+            heal.step(timeElapsed);
+        }
 
 
-    this.cenario.draw(g);
-    this.hunter.draw(g);
-    this.warrior.draw(g);
-    this.lady.draw(g);
-    this.healer.draw(g);
-    for (Magias magia : this.tirosJogador) {
+        lady.persegueObjetoMaisProximo(this.hunter, this.warrior);
+        healer.gmana();
+        healer.rmana();
+        healer.gvida();
+
+        this.verificaColisoesComInimigos();
+        this.verificaColisaoComTiros();
+        this.lady.estaMorto();
+
+         if(this.lady.estaMorto()){
+        if( this.warrior.temColisao( this.portal.getRetangulo() )){
+          GameEngine.getInstance().setNextGameStateController( 3 );
+         }
+          }
+
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 1024, 760);
+
+
+        this.cenario.draw(g);
+        this.portal.draw(g);
+        this.hunter.draw(g);
+        this.warrior.draw(g);
+        this.lady.draw(g);
+        this.healer.draw(g);
+        for (Magias magia : this.tirosJogador) {
             magia.draw(g);
         }
 
-    
-  }
-  
-  public void start() { }
-  public void unload() { }
-  public void stop() {  }
+        for (Heal magia : this.healJogador) {
+            magia.draw(g);
+        }
 
-   private void verificaColisoesComInimigos(){
 
-    //Inimigo 1
-    
-      if(this.lady.estaMorto() ||  this.warrior.estaMorto()){
-           return;
-      
-      }else{
-      
-      if(this.lady.temColisao(this.warrior.getRetangulo())){
-        
-        this.warrior.perdeVida(250);
-        this.lady.perdeVida(100);
-        this.vida -= vida;
-    
     }
-      
-    if(this.lady.temColisao(this.hunter.getRetangulo())){
-        
-        this.hunter.perdeVida(1000);
+
+    public void start() {
     }
-    
-    
 
-    //Inimigo 2
-   // if(this.jogador.temColisao(this.inimigo2.getRectangle())){
-   //     this.jogador.setX(50);
-     //   this.jogador.setY(50);
-   // }
+    public void unload() {
+    }
 
-    //Inimigo Perseguidor   
-   // if(this.jogador.temColisao(this.inimigoPerseguidor.getRectangle())){
-    //  this.jogador.setX(50);
-    //  this.jogador.setY(50);
-   // }
-    
-  }
-      }
- 
+    public void stop() {
+    }
+
+  private void verificaColisoesComInimigos() {
+
+        //Inimigo 1
+
+        if (this.lady.estaMorto() || this.warrior.estaMorto()) {
+            return;
+
+        } else {
+
+            if (this.lady.temColisao(this.warrior.getRetangulo())) {
+
+                this.warrior.perdeVida(250);
+                this.lady.perdeVida(500);
+                this.vida -= vida;
+
+            }
+
+            if (this.lady.temColisao(this.hunter.getRetangulo())) {
+
+                this.hunter.perdeVida(1000);
+            }
+            
+            if(this.healer.temColisao(this.lady.getRetangulo())){
+            this.healer.perdeVida(1000);
+            
+            }
 
 
-  
+
+            //Inimigo 2
+            // if(this.jogador.temColisao(this.inimigo2.getRectangle())){
+            //     this.jogador.setX(50);
+            //   this.jogador.setY(50);
+            // }
+
+            //Inimigo Perseguidor   
+            // if(this.jogador.temColisao(this.inimigoPerseguidor.getRectangle())){
+            //  this.jogador.setX(50);
+            //  this.jogador.setY(50);
+            // }
+
+        }
+    }
+
     private void lancaTirosJogador() {
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
-        if(teclado.keyDown( Keys.Q) ){
-            if(this.hunter.podeAtirar()){
-                this.tirosJogador.add( this.hunter.getMagia() );
-            }            
+        if (teclado.keyDown(Keys.Q)) {
+            if (this.hunter.podeAtirar()) {
+                this.tirosJogador.add(this.hunter.getMagia());
+            }
         }
 
-        if(teclado.keyDown( Keys.U ) ){
-            if(this.healer.podeAtirar()){
-                this.healJogador.add( this.healer.getMagia() );
+        if (teclado.keyDown(Keys.U)) {
+            if (this.healer.podeAtirar()) {
+                this.healJogador.add(this.healer.getMagia());
+                this.healer.mana();
+                        
             }
-    
-}
+
+        }
     }
-    
-    
-      private void verificaColisaoComTiros(){
+
+    private void verificaColisaoComTiros() {
         Random gerador = new Random();
-        int numero = gerador.nextInt(5524)+1500;
-        
-        for(Heal heal : this.healJogador){                        
-            if(heal.temColisao(warrior.getRetangulo())){                
+        int numero = gerador.nextInt(7564) + 2500;
+
+        for (Heal heala : this.healJogador) {
+            if (heala.temColisao(warrior.getRetangulo())) {
                 warrior.heal(numero);
-                
-                
+
+
             }
         }
-        for(Heal heal : this.healJogador){                        
-            if(heal.temColisao(hunter.getRetangulo())){                
+        for (Heal heal : this.healJogador) {
+            if (heal.temColisao(hunter.getRetangulo())) {
                 hunter.heal(numero);
-        
-        
+
+
+            }
+        }
+
+
+        for (Magias flechas : this.tirosJogador) {
+            if (flechas.temColisao(lady.getRetangulo())) {
+                lady.perdeVida(600000);
+                this.vida -= vida;
+
+            }
+        }
+
+
+
+
+    }
+    
+    
+    public void verificaColisaoComPortal(){
+    
+         if(this.portal.temColisao(this.warrior.getRetangulo())){
+             
+             if(this.lady.estaMorto()){
+             
+             GameEngine.getInstance().setNextGameStateController( 2 );
+             
+             }
+             }
     }
 }
-        
-        
-        for(Magias flechas : this.tirosJogador){                        
-            if(flechas.temColisao(lady.getRetangulo())){                
-                lady.perdeVida(6000);
-                  this.vida -= vida;
-                    
-      }
-}
-        
-
-        
-    
-      }
-}
-

@@ -28,6 +28,7 @@ public class LowerCitadel implements GameStateController {
     private CenarioComColisao cenario;
     private int vida = 2;
     ArrayList<Heal> healJogador;
+    Portal portal;
 
     public void load() {
         this.hunter = new Hunter();
@@ -36,6 +37,7 @@ public class LowerCitadel implements GameStateController {
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
         this.healJogador = new ArrayList<Heal>();
+        this.portal = new Portal (800,50);
 
         try {
             this.cenario = new CenarioComColisao("resources/cenario/lowercitadel.scn");
@@ -53,6 +55,7 @@ public class LowerCitadel implements GameStateController {
         this.lancaTirosJogador();
         this.warrior.step(timeElapsed);
         this.cenario.step(timeElapsed);
+        this.portal.step(timeElapsed);
         
 
         for (Magias magia : this.tirosJogador) {
@@ -71,21 +74,24 @@ public class LowerCitadel implements GameStateController {
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
         this.marrowgar.estaMorto();
+        this.verificaColisaoComPortal();
         
 
-
-        // if( this.jogador.temColisao( this.chegada.getRectangle() )){
-        //  GameEngine.getInstance().setNextGameStateController( 200 );
-        // }
-
+        if(this.marrowgar.estaMorto()){
+        if( this.warrior.temColisao( this.portal.getRetangulo())){
+            
+            GameEngine.getInstance().setNextGameStateController( 2 );
+        }
+        }
     }
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 1024, 760);
 
-
+        
         this.cenario.draw(g);
+        this.portal.draw(g);
         this.hunter.draw(g);
         this.warrior.draw(g);
         this.marrowgar.draw(g);
@@ -195,7 +201,7 @@ public class LowerCitadel implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(marrowgar.getRetangulo())) {
-                marrowgar.perdeVida(6000);
+                marrowgar.perdeVida(600000);
                 this.vida -= vida;
 
             }
@@ -204,5 +210,18 @@ public class LowerCitadel implements GameStateController {
 
 
 
+    }
+    
+    
+    public void verificaColisaoComPortal(){
+    
+         if(this.portal.temColisao(this.warrior.getRetangulo())){
+             
+             if(this.marrowgar.estaMorto()){
+             
+             GameEngine.getInstance().setNextGameStateController( 2 );
+             
+             }
+             }
     }
 }

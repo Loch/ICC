@@ -29,6 +29,8 @@ public class Warrior extends ObjetoComMovimento {
 
         this.x = 90;
         this.y = 150;
+        this.largura = 45;
+        this.altura = 75;
         this.vida = 77856;
     }
 
@@ -143,12 +145,6 @@ public class Warrior extends ObjetoComMovimento {
 
         this.controleTiros = 0;
         return new Magias(xTiro, yTiro, this.direcao);
-    }
-
-   
-
-    public Rectangle getRetangulo(){
-        return new Rectangle(this.x+4, this.y+4, 75 , 45);
     }
     
     public void heal (int numPontos){
