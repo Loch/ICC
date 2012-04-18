@@ -1,8 +1,8 @@
 package Mapas;
 
-
 import Boss.Marrowgar;
 import Modelo.Direcao;
+import Modelo.Heal;
 import Modelo.Healer;
 import Modelo.Keys;
 import Modelo.Hunter;
@@ -19,197 +19,190 @@ import javaPlayExtras.CenarioComColisao;
 import javax.swing.JOptionPane;
 
 public class LowerCitadel implements GameStateController {
-  
-  private Hunter hunter;
-  ArrayList<Magias> tirosJogador;
-  private Marrowgar marrowgar;
-  private Healer healer;
-  private Warrior warrior;
-  private CenarioComColisao cenario;
-  private int vida = 2;
-  ArrayList<Magias> tiroboss;
-  
 
-  
+    private Hunter hunter;
+    ArrayList<Magias> tirosJogador;
+    private Marrowgar marrowgar;
+    private Healer healer;
+    private Warrior warrior;
+    private CenarioComColisao cenario;
+    private int vida = 2;
+    ArrayList<Heal> healJogador;
 
-  public void load() {    
-    this.hunter = new Hunter();
-    this.marrowgar = new Marrowgar(600,400, 2);
-    this.healer = new Healer();
-    this.tirosJogador = new ArrayList<Magias>();
-    this.warrior = new Warrior();
-    
-     try {            
-            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel.scn");                        
+    public void load() {
+        this.hunter = new Hunter();
+        this.marrowgar = new Marrowgar(600, 400, 2);
+        this.healer = new Healer();
+        this.tirosJogador = new ArrayList<Magias>();
+        this.warrior = new Warrior();
+        this.healJogador = new ArrayList<Heal>();
+
+        try {
+            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel.scn");
         } catch (Exception ex) {
-           System.out.println("Imagem não encontrada: " + ex.getMessage());
-       }
+            System.out.println("Imagem não encontrada: " + ex.getMessage());
+        }
 
-   
-  }
 
-  public void step(long timeElapsed) {     
-    this.hunter.step(timeElapsed);
-    this.marrowgar.step(timeElapsed);
-    this.healer.step(timeElapsed);
-    this.lancaTirosJogador();
-    this.warrior.step(timeElapsed);
-    this.cenario.step(timeElapsed);
- 
-    for (Magias magia : this.tirosJogador) {
+    }
+
+    public void step(long timeElapsed) {
+        this.hunter.step(timeElapsed);
+        this.marrowgar.step(timeElapsed);
+        this.healer.step(timeElapsed);
+        this.lancaTirosJogador();
+        this.warrior.step(timeElapsed);
+        this.cenario.step(timeElapsed);
+        
+
+        for (Magias magia : this.tirosJogador) {
             magia.step(timeElapsed);
         }
-    
-
-    marrowgar.persegueObjetoMaisProximo(this.hunter , this.warrior);
-     
-  
-    this.verificaColisoesComInimigos();
-    this.verificaColisaoComTiros();
-    this.marrowgar.estaMorto();
-    this.marrowgar.fogoBoss();
-   
-
-    
-   // if( this.jogador.temColisao( this.chegada.getRectangle() )){
-    //  GameEngine.getInstance().setNextGameStateController( 200 );
-   // }
-
-  }
-
-  public void draw(Graphics g) {
-   g.setColor(Color.BLACK);
-    g.fillRect(0, 0,1024, 760);
+        for (Heal heala : this.healJogador) {
+           heala.step(timeElapsed);
+        }
 
 
-    this.cenario.draw(g);
-    this.hunter.draw(g);
-    this.warrior.draw(g);
-    this.marrowgar.draw(g);
-    this.healer.draw(g);
-    for (Magias magia : this.tirosJogador) {
+        marrowgar.persegueObjetoMaisProximo(this.hunter, this.warrior);
+        healer.gmana();
+        healer.rmana();
+        healer.gvida();
+
+        this.verificaColisoesComInimigos();
+        this.verificaColisaoComTiros();
+        this.marrowgar.estaMorto();
+        
+
+
+        // if( this.jogador.temColisao( this.chegada.getRectangle() )){
+        //  GameEngine.getInstance().setNextGameStateController( 200 );
+        // }
+
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 1024, 760);
+
+
+        this.cenario.draw(g);
+        this.hunter.draw(g);
+        this.warrior.draw(g);
+        this.marrowgar.draw(g);
+        this.healer.draw(g);
+        for (Magias magia : this.tirosJogador) {
             magia.draw(g);
         }
-    for (Magias fogo : this.tiroboss){
-    fogo.draw(g);
-    
-    
-    }
-
-    
-  }
-  
-  public void start() { }
-  public void unload() { }
-  public void stop() {  }
-
-  private void verificaColisoesComInimigos(){
-
-    //Inimigo 1
-    
-      if(this.marrowgar.estaMorto() ||  this.warrior.estaMorto()){
-           return;
-      
-      }else{
-      
-      if(this.marrowgar.temColisao(this.warrior.getRetangulo())){
         
-        this.warrior.perdeVida(250);
-        this.marrowgar.perdeVida(100);
-        this.vida -= vida;
-    
+        for (Heal heala : this.healJogador) {
+            heala.draw(g);
+        }
+
+
     }
-      
-    if(this.marrowgar.temColisao(this.hunter.getRetangulo())){
-        
-        this.hunter.perdeVida(1000);
+
+    public void start() {
     }
-     if(this.marrowgar.temColisao(this.healer.getRetangulo())){
-        
-        this.healer.perdeVida(500);
+
+    public void unload() {
     }
-    
-    
 
-    //Inimigo 2
-   // if(this.jogador.temColisao(this.inimigo2.getRectangle())){
-   //     this.jogador.setX(50);
-     //   this.jogador.setY(50);
-   // }
+    public void stop() {
+    }
 
-    //Inimigo Perseguidor   
-   // if(this.jogador.temColisao(this.inimigoPerseguidor.getRectangle())){
-    //  this.jogador.setX(50);
-    //  this.jogador.setY(50);
-   // }
-    
-  }
-      }
- 
+    private void verificaColisoesComInimigos() {
+
+        //Inimigo 1
+
+        if (this.marrowgar.estaMorto() || this.warrior.estaMorto()) {
+            return;
+
+        } else {
+
+            if (this.marrowgar.temColisao(this.warrior.getRetangulo())) {
+
+                this.warrior.perdeVida(250);
+                this.marrowgar.perdeVida(500);
+                this.vida -= vida;
+
+            }
+
+            if (this.marrowgar.temColisao(this.hunter.getRetangulo())) {
+
+                this.hunter.perdeVida(1000);
+            }
+            
+            if(this.healer.temColisao(this.marrowgar.getRetangulo())){
+            this.healer.perdeVida(1000);
+            
+            }
 
 
-  
+
+            //Inimigo 2
+            // if(this.jogador.temColisao(this.inimigo2.getRectangle())){
+            //     this.jogador.setX(50);
+            //   this.jogador.setY(50);
+            // }
+
+            //Inimigo Perseguidor   
+            // if(this.jogador.temColisao(this.inimigoPerseguidor.getRectangle())){
+            //  this.jogador.setX(50);
+            //  this.jogador.setY(50);
+            // }
+
+        }
+    }
+
     private void lancaTirosJogador() {
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
-        if(teclado.keyDown( Keys.Q) ){
-            if(this.hunter.podeAtirar()){
-                this.tirosJogador.add( this.hunter.getMagia() );
-            }            
+        if (teclado.keyDown(Keys.Q)) {
+            if (this.hunter.podeAtirar()) {
+                this.tirosJogador.add(this.hunter.getMagia());
+            }
         }
 
-        if(teclado.keyDown( Keys.U ) ){
-            if(this.healer.podeAtirar()){
-                this.tirosJogador.add( this.healer.getMagia() );
+        if (teclado.keyDown(Keys.U)) {
+            if (this.healer.podeAtirar()) {
+                this.healJogador.add(this.healer.getMagia());
+                this.healer.mana();
+                        
             }
-    
-}
+
+        }
     }
-    
-    
-      private void verificaColisaoComTiros(){
+
+    private void verificaColisaoComTiros() {
         Random gerador = new Random();
-        int numero = gerador.nextInt(100000)+15000;
-        int penance = gerador.nextInt(53250)+15000;
-        
-        for(Magias heal : this.tirosJogador){                        
-            if(heal.temColisao(warrior.getRetangulo())){                
+        int numero = gerador.nextInt(7564) + 2500;
+
+        for (Heal heala : this.healJogador) {
+            if (heala.temColisao(warrior.getRetangulo())) {
                 warrior.heal(numero);
-                
-                
+
+
             }
         }
-        for(Magias heal : this.tirosJogador){                        
-            if(heal.temColisao(hunter.getRetangulo())){                
+        for (Heal heal : this.healJogador) {
+            if (heal.temColisao(hunter.getRetangulo())) {
                 hunter.heal(numero);
-        
-        
-    }
-            
-            
-}
-        for(Magias heal : this.tirosJogador){                        
-            if(heal.temColisao(healer.getRetangulo())){                
-                healer.heal(numero);
-        
-        
-    }
+
+
+            }
         }
-        
-        
-        for(Magias heal : this.tirosJogador){                        
-            if(heal.temColisao(marrowgar.getRetangulo())){                
-                marrowgar.perdeVida(numero);
-                  this.vida -= vida;
-                    
-      }
+
+
+        for (Magias flechas : this.tirosJogador) {
+            if (flechas.temColisao(marrowgar.getRetangulo())) {
+                marrowgar.perdeVida(6000);
+                this.vida -= vida;
+
+            }
+        }
+
+
+
+
+    }
 }
-        
-
-        
-    
-      }
-}
-
-
-

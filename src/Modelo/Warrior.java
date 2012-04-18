@@ -22,7 +22,7 @@ public class Warrior extends ObjetoComMovimento {
     public Warrior() {
 
         try {            
-            this.sprite = new Sprite("resources/warrior/costas.png", 1, 90, 150);                        
+            this.sprite = new Sprite("resources/warrior/warriorsprite.png", 1, 45,75);                        
         } catch (Exception ex) {
            System.out.println("Imagem não encontrada: " + ex.getMessage());
        }
@@ -43,36 +43,36 @@ public class Warrior extends ObjetoComMovimento {
                      
 
          else if (teclado.keyDown( Keys.ESQUERDA) &&  teclado.keyDown( Keys.CIMA )){
-            this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerdaCima(12);
+            this.sprite.setCurrAnimFrame(8);
+            this.moveEsquerdaCima(5);
 
         } else if ( teclado.keyDown( Keys.ESQUERDA ) && teclado.keyDown( Keys.BAIXO) ){
-            this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerdaBaixo(12);
+            this.sprite.setCurrAnimFrame(6);
+            this.moveEsquerdaBaixo(5);
 
         } else if ( teclado.keyDown( Keys.DIREITA ) && teclado.keyDown( Keys.CIMA) ){
-           this.sprite.setCurrAnimFrame(1);
-            this.moveDireitaCima(12);
+           this.sprite.setCurrAnimFrame(2);
+            this.moveDireitaCima(5);
 
         } else if ( teclado.keyDown( Keys.DIREITA ) && teclado.keyDown( Keys.BAIXO) ){
-           this.sprite.setCurrAnimFrame(1);
-            this.moveDireitaBaixo(12);
+           this.sprite.setCurrAnimFrame(4);
+            this.moveDireitaBaixo(5);
 
         } else if( teclado.keyDown( Keys.DIREITA ) ){
-            this.sprite.setCurrAnimFrame(1);
-            this.moveDireita(12);
+            this.sprite.setCurrAnimFrame(3);
+            this.moveDireita(5);
 
         } else if( teclado.keyDown( Keys.ESQUERDA ) ){
-            this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerda(12);
+            this.sprite.setCurrAnimFrame(7);
+            this.moveEsquerda(5);
 
         } else if( teclado.keyDown( Keys.CIMA ) ){
             this.sprite.setCurrAnimFrame(1);
-            this.moveCima(12);
+            this.moveCima(5);
 
         } else if( teclado.keyDown( Keys.BAIXO ) ){
-            this.sprite.setCurrAnimFrame(1);
-            this.moveBaixo(12);
+            this.sprite.setCurrAnimFrame(5);
+            this.moveBaixo(5);
 
         }
      this.controleTiros++; 
@@ -87,7 +87,7 @@ public class Warrior extends ObjetoComMovimento {
             return;
         }
         g.setColor(Color.white);
-        g.drawString(this.vida+"", this.x+5, this.y-15);
+        g.drawString("Vida Warrior:"+this.vida, 19, 35);
         this.sprite.draw(g, this.x, this.y);        
     }
 
@@ -148,7 +148,7 @@ public class Warrior extends ObjetoComMovimento {
    
 
     public Rectangle getRetangulo(){
-        return new Rectangle(this.x+4, this.y+4, 75,45);
+        return new Rectangle(this.x+4, this.y+4, 75 , 45);
     }
     
     public void heal (int numPontos){
