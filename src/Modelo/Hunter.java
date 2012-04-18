@@ -16,12 +16,12 @@ public class Hunter extends ObjetoComMovimento {
     int vida;
     //Só pode lançar um tiro após o outro com um intervalo de 10 frames.
     int controleTiros = 0;
-    int framesContoleTiros = 15;
+    int framesContoleTiros = 1;
 
     public Hunter() {
 
         try {
-            this.sprite = new Sprite("resources/hunter/frente.png", 1, 90, 150);
+            this.sprite = new Sprite("resources/hunter/all.png", 8,63, 75);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -39,35 +39,35 @@ public class Hunter extends ObjetoComMovimento {
             }
         } else if (teclado.keyDown(Keys.A) && teclado.keyDown(Keys.W)) {
             this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerdaCima(12);
+            this.moveEsquerdaCima(5);
 
         } else if (teclado.keyDown(Keys.A) && teclado.keyDown(Keys.S)) {
-            this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerdaBaixo(12);
+            this.sprite.setCurrAnimFrame(4);
+            this.moveEsquerdaBaixo(5);
 
         } else if (teclado.keyDown(Keys.D) && teclado.keyDown(Keys.W)) {
-            this.sprite.setCurrAnimFrame(1);
-            this.moveDireitaCima(12);
+            this.sprite.setCurrAnimFrame(2);
+            this.moveDireitaCima(5);
 
         } else if (teclado.keyDown(Keys.D) && teclado.keyDown(Keys.S)) {
-            this.sprite.setCurrAnimFrame(1);
-            this.moveDireitaBaixo(12);
+            this.sprite.setCurrAnimFrame(8);
+            this.moveDireitaBaixo(5);
 
         } else if (teclado.keyDown(Keys.D)) {
-            this.sprite.setCurrAnimFrame(1);
-            this.moveDireita(12);
+            this.sprite.setCurrAnimFrame(5);
+            this.moveDireita(5);
 
         } else if (teclado.keyDown(Keys.A)) {
-            this.sprite.setCurrAnimFrame(1);
-            this.moveEsquerda(12);
+            this.sprite.setCurrAnimFrame(6);
+            this.moveEsquerda(5);
 
         } else if (teclado.keyDown(Keys.W)) {
-            this.sprite.setCurrAnimFrame(1);
-            this.moveCima(12);
+            this.sprite.setCurrAnimFrame(3);
+            this.moveCima(5);
 
         } else if (teclado.keyDown(Keys.S)) {
-            this.sprite.setCurrAnimFrame(1);
-            this.moveBaixo(12);
+            this.sprite.setCurrAnimFrame(7);
+            this.moveBaixo(5);
 
         }
         this.controleTiros++;
@@ -81,7 +81,7 @@ public class Hunter extends ObjetoComMovimento {
             return;
         }
         g.setColor(Color.white);
-        g.drawString(this.vida + "", this.x + 5, this.y - 15);
+        g.drawString("Loch:"+this.vida, this.x + 5, this.y - 15);
         this.sprite.draw(g, this.x, this.y);
     }
 
@@ -103,7 +103,7 @@ public class Hunter extends ObjetoComMovimento {
 
         int xTiro = this.x;
         int yTiro = this.y;
-        int tamanhoNave = 100;
+        int tamanhoNave = 52;
         int metadeNave = tamanhoNave / 2;
 
         switch (this.direcao) {

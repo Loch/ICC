@@ -26,7 +26,8 @@ public class LowerCitadel implements GameStateController {
   private Healer healer;
   private Warrior warrior;
   private CenarioComColisao cenario;
-  private int vida =2;
+  private int vida = 2;
+  ArrayList<Magias> tiroboss;
   
 
   
@@ -66,6 +67,8 @@ public class LowerCitadel implements GameStateController {
     this.verificaColisoesComInimigos();
     this.verificaColisaoComTiros();
     this.marrowgar.estaMorto();
+    this.marrowgar.fogoBoss();
+   
 
     
    // if( this.jogador.temColisao( this.chegada.getRectangle() )){
@@ -87,6 +90,11 @@ public class LowerCitadel implements GameStateController {
     for (Magias magia : this.tirosJogador) {
             magia.draw(g);
         }
+    for (Magias fogo : this.tiroboss){
+    fogo.draw(g);
+    
+    
+    }
 
     
   }
@@ -115,6 +123,10 @@ public class LowerCitadel implements GameStateController {
     if(this.marrowgar.temColisao(this.hunter.getRetangulo())){
         
         this.hunter.perdeVida(1000);
+    }
+     if(this.marrowgar.temColisao(this.healer.getRetangulo())){
+        
+        this.healer.perdeVida(500);
     }
     
     
@@ -157,7 +169,8 @@ public class LowerCitadel implements GameStateController {
     
       private void verificaColisaoComTiros(){
         Random gerador = new Random();
-        int numero = gerador.nextInt(5524)+1500;
+        int numero = gerador.nextInt(100000)+15000;
+        int penance = gerador.nextInt(53250)+15000;
         
         for(Magias heal : this.tirosJogador){                        
             if(heal.temColisao(warrior.getRetangulo())){                
@@ -168,16 +181,25 @@ public class LowerCitadel implements GameStateController {
         }
         for(Magias heal : this.tirosJogador){                        
             if(heal.temColisao(hunter.getRetangulo())){                
-                hunter.heal(3555);
+                hunter.heal(numero);
         
         
     }
+            
+            
 }
+        for(Magias heal : this.tirosJogador){                        
+            if(heal.temColisao(healer.getRetangulo())){                
+                healer.heal(numero);
+        
+        
+    }
+        }
         
         
         for(Magias heal : this.tirosJogador){                        
             if(heal.temColisao(marrowgar.getRetangulo())){                
-                marrowgar.perdeVida(6000);
+                marrowgar.perdeVida(numero);
                   this.vida -= vida;
                     
       }
@@ -188,4 +210,6 @@ public class LowerCitadel implements GameStateController {
     
       }
 }
+
+
 

@@ -1,9 +1,11 @@
 package Boss;
 
+import Modelo.Magias;
 import Modelo.ObjetoComMovimento;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 import javaPlay.GameEngine;
 import javaPlay.GameObject;
 import javaPlay.Keyboard;
@@ -17,7 +19,7 @@ public class Marrowgar extends ObjetoComMovimento {
 
     public Marrowgar(int x, int y, int velocidade) {
 
-        this.vidas = 639425965;
+        this.vidas = 63942596;
         this.velocidade = 2;
         this.x = x;
         this.y = y;
@@ -36,7 +38,7 @@ public class Marrowgar extends ObjetoComMovimento {
             return; //Não desenha nada;
         }
         g.setColor(Color.white);
-        g.drawString(this.vidas + "", this.x + 5, this.y - 15);
+        g.drawString("Marrowgar:"+this.vidas , this.x +5, this.y - 25);
 
         this.sprite.draw(g, this.x, this.y);
     }
@@ -44,20 +46,35 @@ public class Marrowgar extends ObjetoComMovimento {
     public void perdeVida(int numPontos) {
         this.vidas -= numPontos;
     }
+    
+    public void fogoBoss(){
+    Random random = new Random();
+    int numero = random.nextInt(1);
+    if(numero == 1){
+    
+    
+    
+    }else{
+    return;
+    }
+    
+    
+    
+    }
 
     public boolean estaMorto() {
         return (this.vidas <= 0);
     }
 
     public Rectangle getRetangulo() {
-        return new Rectangle(this.x, this.y, 150, 100);
+        return new Rectangle(this.x, this.y, 200, 150);
     }
 
     public void persegueObjetoMaisProximo(GameObject objeto1, GameObject objeto2) {
             double distanciaObjeto1 = this.calculaDistanciaAte(objeto1);
             double distanciaObjeto2 = this.calculaDistanciaAte(objeto2);
             
-            if(this.vidas < 639425965){
+            if(this.vidas < 63942596){
             
             if (distanciaObjeto1 < distanciaObjeto2) {
                 this.persegue(objeto1);
@@ -153,4 +170,7 @@ public class Marrowgar extends ObjetoComMovimento {
         }
 
     }
+    
+      
+   
 }

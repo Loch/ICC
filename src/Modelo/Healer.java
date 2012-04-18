@@ -18,12 +18,12 @@ public class Healer extends ObjetoComMovimento {
 
     //Só pode lançar um tiro após o outro com um intervalo de 10 frames.
     int controleTiros = 0;
-    int framesContoleTiros = 20;
+    int framesContoleTiros = 3;
 
     public Healer() {
 
         try {            
-            this.sprite = new Sprite("resources/healer/costas.png", 1, 90, 150);                        
+            this.sprite = new Sprite("resources/healer/all.png", 8 ,63, 75);                        
         } catch (Exception ex) {
            System.out.println("Imagem não encontrada: " + ex.getMessage());
        }
@@ -45,27 +45,27 @@ public class Healer extends ObjetoComMovimento {
         this.controleTiros++;                
 
         if( teclado.keyDown( Keys.J ) && teclado.keyDown( Keys.I) ){
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(5);
             this.moveEsquerdaCima(5);
 
         } else if ( teclado.keyDown( Keys.J ) && teclado.keyDown( Keys.K) ){
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(3);
             this.moveEsquerdaBaixo(5);
 
         } else if ( teclado.keyDown( Keys.L) && teclado.keyDown( Keys.I) ){
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(2);
             this.moveDireitaCima(5);
 
         } else if ( teclado.keyDown( Keys.L ) && teclado.keyDown( Keys.K) ){
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(4);
            this.moveDireitaBaixo(5);
 
         } else if( teclado.keyDown( Keys.L ) ){
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(6);
             this.moveDireita(5);
 
         } else if( teclado.keyDown( Keys.J ) ){
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(7);
             this.moveEsquerda(5);
 
         } else if( teclado.keyDown( Keys.I ) ){
@@ -73,7 +73,7 @@ public class Healer extends ObjetoComMovimento {
             this.moveCima(5);
 
         } else if( teclado.keyDown( Keys.K ) ){
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(8);
             this.moveBaixo(5);
 
         }
@@ -84,7 +84,7 @@ public class Healer extends ObjetoComMovimento {
     public void draw(Graphics g) {
         if(this.estaMorto()){
             g.setColor(Color.red);
-            g.drawString("O Mage morreu", this.x+5, this.y-15);
+            g.drawString("O Healer morreu", this.x+5, this.y-15);
             g.drawString("Pressione R para continuar", this.x+5, this.y);
             return;
         }
@@ -97,7 +97,12 @@ public class Healer extends ObjetoComMovimento {
         this.vida -= numPontos;
     }
     public void heal (int numPontos){
-        this.vida += numPontos;
+        if (this.vida > 38000) {
+            return;
+
+        } else {
+            this.vida += numPontos;
+        }
     }
 
     public boolean estaMorto(){
@@ -157,4 +162,5 @@ public class Healer extends ObjetoComMovimento {
     public Rectangle getRetangulo(){
         return new Rectangle(this.x+4, this.y+4, 56, 56);
     }
+    
 }
