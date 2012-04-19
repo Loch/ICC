@@ -29,6 +29,8 @@ public class Hunter extends ObjetoComMovimento {
         this.x = 90;
         this.y = 150;
         this.vida = 35856;
+        this.largura = 45;
+        this.altura = 75;
     }
 
     public void step(long timeElapsed) {

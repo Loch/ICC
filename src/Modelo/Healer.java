@@ -17,7 +17,7 @@ public class Healer extends ObjetoComMovimento {
     int mana;
     //Só pode lançar um tiro após o outro com um intervalo de 10 frames.
     int controleTiros = 0;
-    int framesContoleTiros = 20;
+    int framesContoleTiros = 10;
 
     public Healer() {
         try {
@@ -31,6 +31,8 @@ public class Healer extends ObjetoComMovimento {
         this.y = 150;
         this.vida = 39856;
         this.mana = 43547;
+        this.largura = 45;
+        this.altura = 75;
     }
 
     public void step(long timeElapsed) {
@@ -117,7 +119,7 @@ public class Healer extends ObjetoComMovimento {
         if (mana > 44958) {
             return;
         } else {
-            this.mana += 3;
+            this.mana += 4;
             
         }
     }

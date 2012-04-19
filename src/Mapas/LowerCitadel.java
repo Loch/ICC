@@ -16,6 +16,7 @@ import javaPlay.GameEngine;
 import javaPlay.GameStateController;
 import javaPlay.Keyboard;
 import javaPlayExtras.CenarioComColisao;
+import javaPlayExtras.CenarioComColisaoCima;
 import javax.swing.JOptionPane;
 
 public class LowerCitadel implements GameStateController {
@@ -25,25 +26,32 @@ public class LowerCitadel implements GameStateController {
     private Marrowgar marrowgar;
     private Healer healer;
     private Warrior warrior;
-    private CenarioComColisao cenario;
+    private CenarioComColisaoCima cenario;
     private int vida = 2;
     ArrayList<Heal> healJogador;
     Portal portal;
 
     public void load() {
         this.hunter = new Hunter();
-        this.marrowgar = new Marrowgar(600, 400, 2);
+        this.marrowgar = new Marrowgar(300, 100, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
         this.healJogador = new ArrayList<Heal>();
-        this.portal = new Portal (800,50);
+        this.portal = new Portal (250,100);
+        
+       
+
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
+        
+         this.cenario.adicionaObjeto(healer);
+          this.cenario.adicionaObjeto(warrior);
+           this.cenario.adicionaObjeto(this.hunter);
 
 
     }
@@ -108,6 +116,14 @@ public class LowerCitadel implements GameStateController {
     }
 
     public void start() {
+        healer.setX(500);
+        healer.setY(500);
+        hunter.setX(450);
+        hunter.setY(500);
+        warrior.setX(400);
+        warrior.setY(500);
+        
+        
     }
 
     public void unload() {
@@ -215,7 +231,7 @@ public class LowerCitadel implements GameStateController {
     
     public void verificaColisaoComPortal(){
     
-         if(this.portal.temColisao(this.warrior.getRetangulo())){
+         if(this.portal.temColisao(this.hunter.getRetangulo())){
              
              if(this.marrowgar.estaMorto()){
              
@@ -223,5 +239,19 @@ public class LowerCitadel implements GameStateController {
              
              }
              }
+         
+           if(this.marrowgar.estaMorto()){
+        if( this.warrior.temColisao( this.portal.getRetangulo())){
+            
+            GameEngine.getInstance().setNextGameStateController( 2 );
+        }
+        } 
+           
+              if(this.marrowgar.estaMorto()){
+        if( this.healer.temColisao( this.portal.getRetangulo())){
+            
+            GameEngine.getInstance().setNextGameStateController( 2 );
+        }
+        }
     }
 }

@@ -213,13 +213,27 @@ public class LowerCitadel2 implements GameStateController {
     
     public void verificaColisaoComPortal(){
     
-         if(this.portal.temColisao(this.warrior.getRetangulo())){
+         if(this.portal.temColisao(this.hunter.getRetangulo())){
              
              if(this.lady.estaMorto()){
              
-             GameEngine.getInstance().setNextGameStateController( 2 );
+             GameEngine.getInstance().setNextGameStateController( 3 );
              
              }
              }
+         
+           if(this.lady.estaMorto()){
+        if( this.warrior.temColisao( this.portal.getRetangulo())){
+            
+            GameEngine.getInstance().setNextGameStateController( 3 );
+        }
+        } 
+           
+              if(this.lady.estaMorto()){
+        if( this.healer.temColisao( this.portal.getRetangulo())){
+            
+            GameEngine.getInstance().setNextGameStateController( 3 );
+        }
+        }
     }
 }

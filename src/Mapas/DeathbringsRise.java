@@ -33,7 +33,7 @@ public class DeathbringsRise implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.db = new Deathbringer(600, 400, 2);
+        this.db = new Deathbringer(500, 100, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -108,6 +108,9 @@ public class DeathbringsRise implements GameStateController {
     }
 
     public void start() {
+        this.healer.setX(500);
+        this.healer.setY(500);
+        
     }
 
     public void unload() {
@@ -213,15 +216,29 @@ public class DeathbringsRise implements GameStateController {
     }
     
     
-    public void verificaColisaoComPortal(){
+   public void verificaColisaoComPortal(){
     
-         if(this.portal.temColisao(this.warrior.getRetangulo())){
+         if(this.portal.temColisao(this.hunter.getRetangulo())){
              
              if(this.db.estaMorto()){
              
-           //  GameEngine.getInstance().setNextGameStateController( 2 );
+             GameEngine.getInstance().setNextGameStateController( 4 );
              
              }
              }
+         
+           if(this.db.estaMorto()){
+        if( this.warrior.temColisao( this.portal.getRetangulo())){
+            
+            GameEngine.getInstance().setNextGameStateController( 4 );
+        }
+        } 
+           
+              if(this.db.estaMorto()){
+        if( this.healer.temColisao( this.portal.getRetangulo())){
+            
+            GameEngine.getInstance().setNextGameStateController( 4 );
+        }
+        }
     }
 }

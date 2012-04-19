@@ -22,7 +22,7 @@ public class Festergut extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/MarrowgarTest.png", 1, 200, 150);
+            this.sprite = new Sprite("resources/boss/fester.png", 1, 150, 250);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -50,7 +50,7 @@ public class Festergut extends ObjetoComMovimento {
     }
 
     public Rectangle getRetangulo() {
-        return new Rectangle(this.x, this.y, 200, 150);
+        return new Rectangle(this.x, this.y, 150, 250);
     }
 
     public void persegueObjetoMaisProximo(GameObject objeto1, GameObject objeto2) {
