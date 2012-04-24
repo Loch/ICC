@@ -83,10 +83,15 @@ public class RoyalQuarters implements GameStateController {
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
         this.prince.estaMorto();
-        this.verificaColisaoComPortal();
+       if( this.warrior.temColisao( this.portal.getRetangulo()) ){
+            if( this.hunter.temColisao(this.portal.getRetangulo())){
+                if(this.healer.temColisao(this.portal.getRetangulo()))
+          GameEngine.getInstance().setNextGameStateController( 8 );
+         }
         
 
         
+       }
     }
 
     public void draw(Graphics g) {
@@ -225,29 +230,5 @@ public class RoyalQuarters implements GameStateController {
     }
     
     
-    public void verificaColisaoComPortal(){
     
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.prince.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 7 );
-             
-             }
-             }
-         
-           if(this.prince.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 7 );
-        }
-        } 
-           
-              if(this.prince.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 7 );
-        }
-        }
-    }
 }

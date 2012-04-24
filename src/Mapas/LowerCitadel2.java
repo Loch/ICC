@@ -33,12 +33,12 @@ public class LowerCitadel2 implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.lady = new Lady(800, 500, 2);
+        this.lady = new Lady(400, 10, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
         this.healJogador = new ArrayList<Heal>();
-        this.portal = new Portal (800, 400);
+        this.portal = new Portal (500, 10);
 
         try {
             this.cenario = new CenarioComColisao("resources/cenario/lowercitadel2.scn");
@@ -76,12 +76,16 @@ public class LowerCitadel2 implements GameStateController {
         this.lady.estaMorto();
 
          if(this.lady.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo() )){
+         if( this.warrior.temColisao( this.portal.getRetangulo()) ){
+            if( this.hunter.temColisao(this.portal.getRetangulo())){
+                if(this.healer.temColisao(this.portal.getRetangulo()))
           GameEngine.getInstance().setNextGameStateController( 3 );
          }
           }
 
+         }
     }
+    
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
@@ -106,6 +110,14 @@ public class LowerCitadel2 implements GameStateController {
     }
 
     public void start() {
+        this.healer.setX(400);
+        this.healer.setY(500);
+        this.hunter.setX(480);
+        this.hunter.setY(500);
+        this.warrior.setX(440);
+        this.warrior.setY(500);
+        
+        
     }
 
     public void unload() {

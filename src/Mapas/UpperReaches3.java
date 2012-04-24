@@ -44,7 +44,7 @@ public class UpperReaches3 implements GameStateController {
 
 
         try {
-            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/Upperreaches3.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -82,7 +82,13 @@ public class UpperReaches3 implements GameStateController {
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
         this.putricide.estaMorto();
-        this.verificaColisaoComPortal();
+     if( this.warrior.temColisao( this.portal.getRetangulo()) ){
+            if( this.hunter.temColisao(this.portal.getRetangulo())){
+                if(this.healer.temColisao(this.portal.getRetangulo()))
+          GameEngine.getInstance().setNextGameStateController( 7 );
+         }
+     }
+    
         
 
         
@@ -223,30 +229,5 @@ public class UpperReaches3 implements GameStateController {
 
     }
     
-    
-    public void verificaColisaoComPortal(){
-    
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.putricide.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 7 );
-             
-             }
-             }
-         
-           if(this.putricide.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 7 );
-        }
-        } 
-           
-              if(this.putricide.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 7 );
-        }
-        }
-    }
+  
 }

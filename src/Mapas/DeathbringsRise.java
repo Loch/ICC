@@ -17,6 +17,7 @@ import javaPlay.GameEngine;
 import javaPlay.GameStateController;
 import javaPlay.Keyboard;
 import javaPlayExtras.CenarioComColisao;
+import javaPlayExtras.CenarioComColisaoCima;
 import javax.swing.JOptionPane;
 
 public class DeathbringsRise implements GameStateController {
@@ -26,7 +27,7 @@ public class DeathbringsRise implements GameStateController {
     private Deathbringer db;
     private Healer healer;
     private Warrior warrior;
-    private CenarioComColisao cenario;
+    private CenarioComColisaoCima cenario;
     private int vida = 2;
     ArrayList<Heal> healJogador;
     Portal portal;
@@ -41,21 +42,30 @@ public class DeathbringsRise implements GameStateController {
         this.portal = new Portal (800,50);
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel3.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/dbw.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
+        
+        this.cenario.adicionaObjeto(healer);
+        this.cenario.adicionaObjeto(hunter);
+        this.cenario.adicionaObjeto(warrior);
+        this.cenario.adicionaObjeto(db);
+        
+        
+        
 
 
     }
 
     public void step(long timeElapsed) {
+         this.cenario.step(timeElapsed);
         this.hunter.step(timeElapsed);
         this.db.step(timeElapsed);
         this.healer.step(timeElapsed);
         this.lancaTirosJogador();
         this.warrior.step(timeElapsed);
-        this.cenario.step(timeElapsed);
+       
         this.portal.step(timeElapsed);
         
 
@@ -75,10 +85,13 @@ public class DeathbringsRise implements GameStateController {
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
         this.db.estaMorto();
-        this.verificaColisaoComPortal();
+         if( this.warrior.temColisao( this.portal.getRetangulo()) && this.hunter.temColisao(this.portal.getRetangulo()) && this.healer.temColisao(this.portal.getRetangulo())){
+          GameEngine.getInstance().setNextGameStateController( 4 );
+         }
+          }
         
 
-    }
+    
 
     public void draw(Graphics g) {
         
@@ -210,29 +223,4 @@ public class DeathbringsRise implements GameStateController {
     }
     
     
-   public void verificaColisaoComPortal(){
-    
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.db.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 4 );
-             
-             }
-             }
-         
-           if(this.db.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 4 );
-        }
-        } 
-           
-              if(this.db.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 4 );
-        }
-        }
-    }
 }

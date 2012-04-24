@@ -22,7 +22,7 @@ public class Rotface extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/Boss/rotface.png", 1, 200, 250);
+            this.sprite = new Sprite("resources/Boss/rotface.png", 2 ,155, 250);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -139,7 +139,7 @@ public class Rotface extends ObjetoComMovimento {
         } else if (this.x > xPerseguido && this.y == yPerseguido) {
             //Nave Perseguida está a esquerda.
             this.moveEsquerda(this.velocidade);
-            this.sprite.setCurrAnimFrame(1);
+            this.sprite.setCurrAnimFrame(2);
 
         } else if (this.x == xPerseguido && this.y < yPerseguido) {
             //Nave Perseguida está abaixo

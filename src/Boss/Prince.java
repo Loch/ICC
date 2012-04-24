@@ -22,7 +22,7 @@ public class Prince extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/boss/putricide.png", 1, 200, 275);
+            this.sprite = new Sprite("resources/boss/prince.png", 1, 200, 275);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -57,7 +57,7 @@ public class Prince extends ObjetoComMovimento {
             double distanciaObjeto1 = this.calculaDistanciaAte(objeto1);
             double distanciaObjeto2 = this.calculaDistanciaAte(objeto2);
             
-            if(this.vidas < 9761500){
+            if(this.vidas < 5761500){
             
             if (distanciaObjeto1 < distanciaObjeto2) {
                 this.persegue(objeto1);

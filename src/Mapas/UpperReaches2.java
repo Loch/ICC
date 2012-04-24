@@ -42,7 +42,7 @@ public class UpperReaches2 implements GameStateController {
         this.portal = new Portal (800,200);
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisao("resources/cenario/Upperreaches2.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -76,11 +76,18 @@ public class UpperReaches2 implements GameStateController {
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
         this.rotface.estaMorto();
-        this.verificaColisaoComPortal();
+        //if( this.warrior.temColisao( this.portal.getRetangulo()) && this.hunter.temColisao(this.portal.getRetangulo()) && this.healer.temColisao(this.portal.getRetangulo())){
+          if( this.warrior.temColisao( this.portal.getRetangulo()) ){
+            if( this.hunter.temColisao(this.portal.getRetangulo())){
+                if(this.healer.temColisao(this.portal.getRetangulo()))  
+        GameEngine.getInstance().setNextGameStateController( 6 );
+         }
         
 
        
     }
+    }
+
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
@@ -218,30 +225,4 @@ public class UpperReaches2 implements GameStateController {
     }
     
     
-    public void verificaColisaoComPortal(){
-    
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.rotface.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 6 );
-             
-             }
-             }
-         
-           if(this.rotface.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-         
-          
-            GameEngine.getInstance().setNextGameStateController( 6 );
-        }
-        } 
-           
-              if(this.rotface.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 6 );
-        }
-        }
-    }
 }

@@ -22,7 +22,7 @@ public class Festergut extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/boss/fester.png", 1, 150, 250);
+            this.sprite = new Sprite("resources/boss/festergut.png", 2, 150, 250);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

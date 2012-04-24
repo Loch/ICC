@@ -19,7 +19,6 @@ import javaPlay.Keyboard;
 import javaPlayExtras.CenarioComColisao;
 import javax.swing.JOptionPane;
 
-
 public class UpperReaches implements GameStateController {
 
     private Hunter hunter;
@@ -31,7 +30,6 @@ public class UpperReaches implements GameStateController {
     private int vida = 2;
     ArrayList<Heal> healJogador;
     Portal portal;
-    
 
     public void load() {
         this.hunter = new Hunter();
@@ -40,10 +38,10 @@ public class UpperReaches implements GameStateController {
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
         this.healJogador = new ArrayList<Heal>();
-        this.portal = new Portal (800,200);
+        this.portal = new Portal(800, 200);
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisao("resources/cenario/Upperreaches.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -59,13 +57,13 @@ public class UpperReaches implements GameStateController {
         this.warrior.step(timeElapsed);
         this.cenario.step(timeElapsed);
         this.portal.step(timeElapsed);
-        
+
 
         for (Magias magia : this.tirosJogador) {
             magia.step(timeElapsed);
         }
         for (Heal heala : this.healJogador) {
-           heala.step(timeElapsed);
+            heala.step(timeElapsed);
         }
 
 
@@ -77,16 +75,24 @@ public class UpperReaches implements GameStateController {
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
         this.festergut.estaMorto();
-        this.verificaColisaoComPortal();
-        
 
+
+
+        // if( this.warrior.temColisao( this.portal.getRetangulo()) && this.hunter.temColisao(this.portal.getRetangulo()) && this.healer.temColisao(this.portal.getRetangulo())){
+        if (this.warrior.temColisao(this.portal.getRetangulo())) {
+            if (this.hunter.temColisao(this.portal.getRetangulo())) {
+                if (this.healer.temColisao(this.portal.getRetangulo())) {
+                    GameEngine.getInstance().setNextGameStateController(5);
+                }
+            }
+        }
     }
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 1024, 760);
 
-        
+
         this.cenario.draw(g);
         this.portal.draw(g);
         this.hunter.draw(g);
@@ -96,7 +102,7 @@ public class UpperReaches implements GameStateController {
         for (Magias magia : this.tirosJogador) {
             magia.draw(g);
         }
-        
+
         for (Heal heala : this.healJogador) {
             heala.draw(g);
         }
@@ -111,10 +117,10 @@ public class UpperReaches implements GameStateController {
         hunter.setY(500);
         warrior.setX(400);
         warrior.setY(500);
-        
-       
-        
-        
+
+
+
+
     }
 
     public void unload() {
@@ -144,10 +150,10 @@ public class UpperReaches implements GameStateController {
 
                 this.hunter.perdeVida(1000);
             }
-            
-            if(this.healer.temColisao(this.festergut.getRetangulo())){
-            this.healer.perdeVida(1000);
-            
+
+            if (this.healer.temColisao(this.festergut.getRetangulo())) {
+                this.healer.perdeVida(1000);
+
             }
 
 
@@ -180,7 +186,7 @@ public class UpperReaches implements GameStateController {
             if (this.healer.podeAtirar()) {
                 this.healJogador.add(this.healer.getMagia());
                 this.healer.mana();
-                        
+
             }
 
         }
@@ -217,36 +223,5 @@ public class UpperReaches implements GameStateController {
 
 
 
-    }
-    
-    
-    public void verificaColisaoComPortal(){
-    
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.festergut.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 5 );
-             
-             }
-             }
-         
-           if(this.festergut.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-                        
-         
-            
-
-          
-            GameEngine.getInstance().setNextGameStateController( 5 );
-        }
-        } 
-           
-              if(this.festergut.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 5 );
-        }
-        }
     }
 }

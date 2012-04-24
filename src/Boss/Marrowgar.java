@@ -22,7 +22,7 @@ public class Marrowgar extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/boss/MarrowgarTest.png", 1, 200, 150);
+            this.sprite = new Sprite("resources/boss/marrowgar.png", 1, 250, 200);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

@@ -24,7 +24,7 @@ public class Lady extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/boss/lady_sprite.png", 4 , 150, 250);
+            this.sprite = new Sprite("resources/boss/lady.png", 4 , 150, 250);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

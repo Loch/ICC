@@ -22,7 +22,7 @@ public class Putricide extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/boss/putricide.png", 1, 200, 275);
+            this.sprite = new Sprite("resources/boss/putricide.png", 2, 155, 250);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

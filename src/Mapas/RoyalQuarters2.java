@@ -1,6 +1,8 @@
 package Mapas;
 
-import Boss.Marrowgar;
+
+
+import Boss.Queen;
 import Modelo.Direcao;
 import Modelo.Heal;
 import Modelo.Healer;
@@ -19,11 +21,11 @@ import javaPlayExtras.CenarioComColisao;
 import javaPlayExtras.CenarioComColisaoCima;
 import javax.swing.JOptionPane;
 
-public class LowerCitadel implements GameStateController {
+public class RoyalQuarters2 implements GameStateController {
 
     private Hunter hunter;
     ArrayList<Magias> tirosJogador;
-    private Marrowgar marrowgar;
+    private Queen blood;
     private Healer healer;
     private Warrior warrior;
     private CenarioComColisaoCima cenario;
@@ -33,7 +35,7 @@ public class LowerCitadel implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.marrowgar = new Marrowgar(300, 100, 2);
+        this.blood = new Queen(500, 50, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -44,7 +46,7 @@ public class LowerCitadel implements GameStateController {
 
 
         try {
-            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/royalquarters2.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -58,7 +60,7 @@ public class LowerCitadel implements GameStateController {
 
     public void step(long timeElapsed) {
         this.hunter.step(timeElapsed);
-        this.marrowgar.step(timeElapsed);
+        this.blood.step(timeElapsed);
         this.healer.step(timeElapsed);
         this.lancaTirosJogador();
         this.warrior.step(timeElapsed);
@@ -74,31 +76,25 @@ public class LowerCitadel implements GameStateController {
         }
 
 
-        //marrowgar.persegueObjetoMaisProximo(this.hunter, this.warrior);
+        blood.persegueObjetoMaisProximo(this.hunter, this.warrior);
         healer.gmana();
         healer.rmana();
         healer.gvida();
 
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
-        this.marrowgar.estaMorto();
-       
-        this.persegue();
-        this.healer.estaMorto();
-        this.warrior.estaMorto();
-        this.hunter.estaMorto();
-        
-
-        if(this.marrowgar.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo()) ){
+        this.blood.estaMorto();
+       //if( this.warrior.temColisao( this.portal.getRetangulo()) && this.hunter.temColisao(this.portal.getRetangulo()) && this.healer.temColisao(this.portal.getRetangulo())){
+            if( this.warrior.temColisao( this.portal.getRetangulo()) ){
             if( this.hunter.temColisao(this.portal.getRetangulo())){
                 if(this.healer.temColisao(this.portal.getRetangulo()))
-            GameEngine.getInstance().setNextGameStateController( 2 );
-        }
-        
-        }
-        }
+        GameEngine.getInstance().setNextGameStateController( 9 );
+         }
+            }
     }
+
+        
+    
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
@@ -109,7 +105,7 @@ public class LowerCitadel implements GameStateController {
         this.portal.draw(g);
         this.hunter.draw(g);
         this.warrior.draw(g);
-        this.marrowgar.draw(g);
+        this.blood.draw(g);
         this.healer.draw(g);
         for (Magias magia : this.tirosJogador) {
             magia.draw(g);
@@ -143,25 +139,25 @@ public class LowerCitadel implements GameStateController {
 
         //Inimigo 1
 
-        if (this.marrowgar.estaMorto() || this.warrior.estaMorto()) {
+        if (this.blood.estaMorto() || this.warrior.estaMorto()) {
             return;
 
         } else {
 
-            if (this.marrowgar.temColisao(this.warrior.getRetangulo())) {
+            if (this.blood.temColisao(this.warrior.getRetangulo())) {
 
                 this.warrior.perdeVida(250);
-                this.marrowgar.perdeVida(500);
+                this.blood.perdeVida(500);
                 this.vida -= vida;
 
             }
 
-            if (this.marrowgar.temColisao(this.hunter.getRetangulo())) {
+            if (this.blood.temColisao(this.hunter.getRetangulo())) {
 
                 this.hunter.perdeVida(1000);
             }
             
-            if(this.healer.temColisao(this.marrowgar.getRetangulo())){
+            if(this.healer.temColisao(this.blood.getRetangulo())){
             this.healer.perdeVida(1000);
             
             }
@@ -223,8 +219,8 @@ public class LowerCitadel implements GameStateController {
 
 
         for (Magias flechas : this.tirosJogador) {
-            if (flechas.temColisao(marrowgar.getRetangulo())) {
-                marrowgar.perdeVida(600000);
+            if (flechas.temColisao(blood.getRetangulo())) {
+                blood.perdeVida(600000);
                 this.vida -= vida;
 
             }
@@ -236,34 +232,5 @@ public class LowerCitadel implements GameStateController {
     }
     
     
-    
-    
-    
-    
-    
-    public void persegue (){
-    
-        if(warrior.estaMorto()){
-        marrowgar.persegueObjetoMaisProximo(this.hunter,this.healer);
-    
-    
-        }else{
-        
-       
-        
-        
-        }if(hunter.estaMorto()){
-        marrowgar.persegueObjetoMaisProximo(warrior,healer);
-        }else{
-        
-        
-        }
-        
-        marrowgar.persegueObjetoMaisProximo(this.warrior, this.hunter);
-        
-        
-        }
-    
-    
-    }
-
+   
+}            
