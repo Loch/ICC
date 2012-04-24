@@ -1,7 +1,6 @@
 package Mapas;
 
-import Boss.Prince;
-
+import Boss.Rotface;
 import Modelo.Direcao;
 import Modelo.Heal;
 import Modelo.Healer;
@@ -17,49 +16,43 @@ import javaPlay.GameEngine;
 import javaPlay.GameStateController;
 import javaPlay.Keyboard;
 import javaPlayExtras.CenarioComColisao;
-import javaPlayExtras.CenarioComColisaoCima;
 import javax.swing.JOptionPane;
+import visao.Begin;
 
-public class RoyalQuarters implements GameStateController {
+public class UpperReaches2 implements GameStateController {
 
     private Hunter hunter;
     ArrayList<Magias> tirosJogador;
-    private Prince prince;
+    private Rotface rotface;
     private Healer healer;
     private Warrior warrior;
-    private CenarioComColisaoCima cenario;
+    private CenarioComColisao cenario;
     private int vida = 2;
     ArrayList<Heal> healJogador;
     Portal portal;
+  
 
     public void load() {
         this.hunter = new Hunter();
-        this.prince = new Prince(300, 100, 2);
+        this.rotface = new Rotface(300, 100, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
         this.healJogador = new ArrayList<Heal>();
-        this.portal = new Portal (250,100);
-        
-       
-
+        this.portal = new Portal (800,200);
 
         try {
-            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
-        
-         this.cenario.adicionaObjeto(healer);
-          this.cenario.adicionaObjeto(warrior);
-           this.cenario.adicionaObjeto(this.hunter);
 
 
     }
 
     public void step(long timeElapsed) {
         this.hunter.step(timeElapsed);
-        this.prince.step(timeElapsed);
+        this.rotface.step(timeElapsed);
         this.healer.step(timeElapsed);
         this.lancaTirosJogador();
         this.warrior.step(timeElapsed);
@@ -75,18 +68,18 @@ public class RoyalQuarters implements GameStateController {
         }
 
 
-        prince.persegueObjetoMaisProximo(this.hunter, this.warrior);
+        rotface.persegueObjetoMaisProximo(this.hunter, this.warrior);
         healer.gmana();
         healer.rmana();
         healer.gvida();
 
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
-        this.prince.estaMorto();
+        this.rotface.estaMorto();
         this.verificaColisaoComPortal();
         
 
-        
+       
     }
 
     public void draw(Graphics g) {
@@ -98,7 +91,7 @@ public class RoyalQuarters implements GameStateController {
         this.portal.draw(g);
         this.hunter.draw(g);
         this.warrior.draw(g);
-        this.prince.draw(g);
+        this.rotface.draw(g);
         this.healer.draw(g);
         for (Magias magia : this.tirosJogador) {
             magia.draw(g);
@@ -118,7 +111,7 @@ public class RoyalQuarters implements GameStateController {
         hunter.setY(500);
         warrior.setX(400);
         warrior.setY(500);
-        
+       
         
     }
 
@@ -132,25 +125,25 @@ public class RoyalQuarters implements GameStateController {
 
         //Inimigo 1
 
-        if (this.prince.estaMorto() || this.warrior.estaMorto()) {
+        if (this.rotface.estaMorto() || this.warrior.estaMorto()) {
             return;
 
         } else {
 
-            if (this.prince.temColisao(this.warrior.getRetangulo())) {
+            if (this.rotface.temColisao(this.warrior.getRetangulo())) {
 
                 this.warrior.perdeVida(250);
-                this.prince.perdeVida(500);
+                this.rotface.perdeVida(500);
                 this.vida -= vida;
 
             }
 
-            if (this.prince.temColisao(this.hunter.getRetangulo())) {
+            if (this.rotface.temColisao(this.hunter.getRetangulo())) {
 
                 this.hunter.perdeVida(1000);
             }
             
-            if(this.healer.temColisao(this.prince.getRetangulo())){
+            if(this.healer.temColisao(this.rotface.getRetangulo())){
             this.healer.perdeVida(1000);
             
             }
@@ -212,8 +205,8 @@ public class RoyalQuarters implements GameStateController {
 
 
         for (Magias flechas : this.tirosJogador) {
-            if (flechas.temColisao(prince.getRetangulo())) {
-                prince.perdeVida(600000);
+            if (flechas.temColisao(rotface.getRetangulo())) {
+                rotface.perdeVida(600000);
                 this.vida -= vida;
 
             }
@@ -229,24 +222,25 @@ public class RoyalQuarters implements GameStateController {
     
          if(this.portal.temColisao(this.hunter.getRetangulo())){
              
-             if(this.prince.estaMorto()){
+             if(this.rotface.estaMorto()){
              
-             GameEngine.getInstance().setNextGameStateController( 7 );
+             GameEngine.getInstance().setNextGameStateController( 6 );
              
              }
              }
          
-           if(this.prince.estaMorto()){
+           if(this.rotface.estaMorto()){
         if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 7 );
+         
+          
+            GameEngine.getInstance().setNextGameStateController( 6 );
         }
         } 
            
-              if(this.prince.estaMorto()){
+              if(this.rotface.estaMorto()){
         if( this.healer.temColisao( this.portal.getRetangulo())){
             
-            GameEngine.getInstance().setNextGameStateController( 7 );
+            GameEngine.getInstance().setNextGameStateController( 6 );
         }
         }
     }

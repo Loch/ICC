@@ -1,7 +1,6 @@
 package Mapas;
 
-import Boss.Prince;
-
+import Boss.Putricide;
 import Modelo.Direcao;
 import Modelo.Heal;
 import Modelo.Healer;
@@ -20,11 +19,11 @@ import javaPlayExtras.CenarioComColisao;
 import javaPlayExtras.CenarioComColisaoCima;
 import javax.swing.JOptionPane;
 
-public class RoyalQuarters implements GameStateController {
+public class UpperReaches3 implements GameStateController {
 
     private Hunter hunter;
     ArrayList<Magias> tirosJogador;
-    private Prince prince;
+    private Putricide putricide;
     private Healer healer;
     private Warrior warrior;
     private CenarioComColisaoCima cenario;
@@ -34,7 +33,7 @@ public class RoyalQuarters implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.prince = new Prince(300, 100, 2);
+        this.putricide = new Putricide(300, 100, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -59,7 +58,7 @@ public class RoyalQuarters implements GameStateController {
 
     public void step(long timeElapsed) {
         this.hunter.step(timeElapsed);
-        this.prince.step(timeElapsed);
+        this.putricide.step(timeElapsed);
         this.healer.step(timeElapsed);
         this.lancaTirosJogador();
         this.warrior.step(timeElapsed);
@@ -75,14 +74,14 @@ public class RoyalQuarters implements GameStateController {
         }
 
 
-        prince.persegueObjetoMaisProximo(this.hunter, this.warrior);
+        putricide.persegueObjetoMaisProximo(this.hunter, this.warrior);
         healer.gmana();
         healer.rmana();
         healer.gvida();
 
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
-        this.prince.estaMorto();
+        this.putricide.estaMorto();
         this.verificaColisaoComPortal();
         
 
@@ -98,7 +97,7 @@ public class RoyalQuarters implements GameStateController {
         this.portal.draw(g);
         this.hunter.draw(g);
         this.warrior.draw(g);
-        this.prince.draw(g);
+        this.putricide.draw(g);
         this.healer.draw(g);
         for (Magias magia : this.tirosJogador) {
             magia.draw(g);
@@ -132,25 +131,25 @@ public class RoyalQuarters implements GameStateController {
 
         //Inimigo 1
 
-        if (this.prince.estaMorto() || this.warrior.estaMorto()) {
+        if (this.putricide.estaMorto() || this.warrior.estaMorto()) {
             return;
 
         } else {
 
-            if (this.prince.temColisao(this.warrior.getRetangulo())) {
+            if (this.putricide.temColisao(this.warrior.getRetangulo())) {
 
                 this.warrior.perdeVida(250);
-                this.prince.perdeVida(500);
+                this.putricide.perdeVida(500);
                 this.vida -= vida;
 
             }
 
-            if (this.prince.temColisao(this.hunter.getRetangulo())) {
+            if (this.putricide.temColisao(this.hunter.getRetangulo())) {
 
                 this.hunter.perdeVida(1000);
             }
             
-            if(this.healer.temColisao(this.prince.getRetangulo())){
+            if(this.healer.temColisao(this.putricide.getRetangulo())){
             this.healer.perdeVida(1000);
             
             }
@@ -212,8 +211,8 @@ public class RoyalQuarters implements GameStateController {
 
 
         for (Magias flechas : this.tirosJogador) {
-            if (flechas.temColisao(prince.getRetangulo())) {
-                prince.perdeVida(600000);
+            if (flechas.temColisao(putricide.getRetangulo())) {
+                putricide.perdeVida(600000);
                 this.vida -= vida;
 
             }
@@ -229,21 +228,21 @@ public class RoyalQuarters implements GameStateController {
     
          if(this.portal.temColisao(this.hunter.getRetangulo())){
              
-             if(this.prince.estaMorto()){
+             if(this.putricide.estaMorto()){
              
              GameEngine.getInstance().setNextGameStateController( 7 );
              
              }
              }
          
-           if(this.prince.estaMorto()){
+           if(this.putricide.estaMorto()){
         if( this.warrior.temColisao( this.portal.getRetangulo())){
             
             GameEngine.getInstance().setNextGameStateController( 7 );
         }
         } 
            
-              if(this.prince.estaMorto()){
+              if(this.putricide.estaMorto()){
         if( this.healer.temColisao( this.portal.getRetangulo())){
             
             GameEngine.getInstance().setNextGameStateController( 7 );

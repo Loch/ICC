@@ -78,12 +78,6 @@ public class DeathbringsRise implements GameStateController {
         this.verificaColisaoComPortal();
         
 
-        if(this.db.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 2 );
-        }
-        }
     }
 
     public void draw(Graphics g) {

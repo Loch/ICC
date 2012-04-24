@@ -22,7 +22,7 @@ public class Rotface extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/MarrowgarTest.png", 1, 200, 150);
+            this.sprite = new Sprite("resources/Boss/rotface.png", 1, 200, 250);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

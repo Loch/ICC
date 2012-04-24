@@ -19,6 +19,7 @@ import javaPlay.Keyboard;
 import javaPlayExtras.CenarioComColisao;
 import javax.swing.JOptionPane;
 
+
 public class UpperReaches implements GameStateController {
 
     private Hunter hunter;
@@ -30,6 +31,7 @@ public class UpperReaches implements GameStateController {
     private int vida = 2;
     ArrayList<Heal> healJogador;
     Portal portal;
+    
 
     public void load() {
         this.hunter = new Hunter();
@@ -78,12 +80,6 @@ public class UpperReaches implements GameStateController {
         this.verificaColisaoComPortal();
         
 
-        if(this.festergut.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 2 );
-        }
-        }
     }
 
     public void draw(Graphics g) {
@@ -115,6 +111,8 @@ public class UpperReaches implements GameStateController {
         hunter.setY(500);
         warrior.setX(400);
         warrior.setY(500);
+        
+       
         
         
     }
@@ -228,22 +226,26 @@ public class UpperReaches implements GameStateController {
              
              if(this.festergut.estaMorto()){
              
-             GameEngine.getInstance().setNextGameStateController( 2 );
+             GameEngine.getInstance().setNextGameStateController( 5 );
              
              }
              }
          
            if(this.festergut.estaMorto()){
         if( this.warrior.temColisao( this.portal.getRetangulo())){
+                        
+         
             
-            GameEngine.getInstance().setNextGameStateController( 2 );
+
+          
+            GameEngine.getInstance().setNextGameStateController( 5 );
         }
         } 
            
               if(this.festergut.estaMorto()){
         if( this.healer.temColisao( this.portal.getRetangulo())){
             
-            GameEngine.getInstance().setNextGameStateController( 2 );
+            GameEngine.getInstance().setNextGameStateController( 5 );
         }
         }
     }
