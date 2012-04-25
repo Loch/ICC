@@ -19,7 +19,7 @@ public class Magias extends ObjetoComMovimento {
         this.direcao = direcao;
         this.velocidade = 10;
         try {
-            this.sprite = new Sprite("resources/flecha.png", 8, 20, 30);
+            this.sprite = new Sprite("resources/flechas.png", 8, 20, 30);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: BIXA " + ex.getMessage());
         }
@@ -35,35 +35,35 @@ public class Magias extends ObjetoComMovimento {
         switch (this.direcao) {
             case DIREITA:
                 this.moveDireita(this.velocidade);
-                this.sprite.setCurrAnimFrame(2);
+                this.sprite.setCurrAnimFrame(1);
                 break;
             case ESQUERDA:
                 this.moveEsquerda(this.velocidade);
-                this.sprite.setCurrAnimFrame(1);
+                this.sprite.setCurrAnimFrame(5);
                 break;
             case CIMA:
                 this.moveCima(this.velocidade);
-                this.sprite.setCurrAnimFrame(8);
+                this.sprite.setCurrAnimFrame(3);
                 break;
             case BAIXO:
                 this.moveBaixo(this.velocidade);
-                this.sprite.setCurrAnimFrame(5);
+                this.sprite.setCurrAnimFrame(8);
                 break;
             case DIREITA_CIMA:
                 this.moveDireitaCima(this.velocidade);
-                this.sprite.setCurrAnimFrame(4);
+                this.sprite.setCurrAnimFrame(2);
                 break;
             case DIREITA_BAIXO:
                 this.moveDireitaBaixo(this.velocidade);
-                this.sprite.setCurrAnimFrame(6);
+                this.sprite.setCurrAnimFrame(7);
                 break;
             case ESQUERDA_CIMA:
                 this.moveEsquerdaCima(this.velocidade);
-                this.sprite.setCurrAnimFrame(3);
+                this.sprite.setCurrAnimFrame(4);
                 break;
             case ESQUERDA_BAIXO:
                 this.moveEsquerdaBaixo(this.velocidade);
-                this.sprite.setCurrAnimFrame(7);
+                this.sprite.setCurrAnimFrame(6);
                 break;
         }
     }

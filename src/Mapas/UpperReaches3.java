@@ -33,7 +33,7 @@ public class UpperReaches3 implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.putricide = new Putricide(300, 100, 2);
+        this.putricide = new Putricide(400, 70, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -218,7 +218,7 @@ public class UpperReaches3 implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(putricide.getRetangulo())) {
-                putricide.perdeVida(600000);
+                putricide.perdeVida(25000);
                 this.vida -= vida;
 
             }

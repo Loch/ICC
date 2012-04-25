@@ -1,6 +1,7 @@
 package Mapas;
 
-import Boss.Marrowgar;
+import Boss.LichKing;
+
 import Modelo.Direcao;
 import Modelo.Heal;
 import Modelo.Healer;
@@ -23,7 +24,7 @@ public class FrozenThorne implements GameStateController {
 
     private Hunter hunter;
     ArrayList<Magias> tirosJogador;
-    private Marrowgar marrowgar;
+    private LichKing lich;
     private Healer healer;
     private Warrior warrior;
     private CenarioComColisaoCima cenario;
@@ -33,7 +34,7 @@ public class FrozenThorne implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.marrowgar = new Marrowgar(300, 100, 2);
+        this.lich = new LichKing(400, 200, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -44,7 +45,7 @@ public class FrozenThorne implements GameStateController {
 
 
         try {
-            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/lichspot.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -58,7 +59,7 @@ public class FrozenThorne implements GameStateController {
 
     public void step(long timeElapsed) {
         this.hunter.step(timeElapsed);
-        this.marrowgar.step(timeElapsed);
+        this.lich.step(timeElapsed);
         this.healer.step(timeElapsed);
         this.lancaTirosJogador();
         this.warrior.step(timeElapsed);
@@ -74,21 +75,21 @@ public class FrozenThorne implements GameStateController {
         }
 
 
-        marrowgar.persegueObjetoMaisProximo(this.hunter, this.warrior);
+        lich.persegueObjetoMaisProximo(this.hunter, this.warrior);
         healer.gmana();
         healer.rmana();
         healer.gvida();
 
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
-        this.marrowgar.estaMorto();
-        this.verificaColisaoComPortal();
+        this.lich.estaMorto();
+      
         
 
-        if(this.marrowgar.estaMorto()){
+        if(this.lich.estaMorto()){
         if( this.warrior.temColisao( this.portal.getRetangulo())){
             
-            GameEngine.getInstance().setNextGameStateController( 2 );
+            GameEngine.getInstance().setNextGameStateController( 10 );
         }
         }
     }
@@ -102,7 +103,7 @@ public class FrozenThorne implements GameStateController {
         this.portal.draw(g);
         this.hunter.draw(g);
         this.warrior.draw(g);
-        this.marrowgar.draw(g);
+        this.lich.draw(g);
         this.healer.draw(g);
         for (Magias magia : this.tirosJogador) {
             magia.draw(g);
@@ -136,25 +137,25 @@ public class FrozenThorne implements GameStateController {
 
         //Inimigo 1
 
-        if (this.marrowgar.estaMorto() || this.warrior.estaMorto()) {
+        if (this.lich.estaMorto() || this.warrior.estaMorto()) {
             return;
 
         } else {
 
-            if (this.marrowgar.temColisao(this.warrior.getRetangulo())) {
+            if (this.lich.temColisao(this.warrior.getRetangulo())) {
 
                 this.warrior.perdeVida(250);
-                this.marrowgar.perdeVida(500);
+                this.lich.perdeVida(500);
                 this.vida -= vida;
 
             }
 
-            if (this.marrowgar.temColisao(this.hunter.getRetangulo())) {
+            if (this.lich.temColisao(this.hunter.getRetangulo())) {
 
                 this.hunter.perdeVida(1000);
             }
             
-            if(this.healer.temColisao(this.marrowgar.getRetangulo())){
+            if(this.healer.temColisao(this.lich.getRetangulo())){
             this.healer.perdeVida(1000);
             
             }
@@ -216,8 +217,8 @@ public class FrozenThorne implements GameStateController {
 
 
         for (Magias flechas : this.tirosJogador) {
-            if (flechas.temColisao(marrowgar.getRetangulo())) {
-                marrowgar.perdeVida(600000);
+            if (flechas.temColisao(lich.getRetangulo())) {
+                lich.perdeVida(25000);
                 this.vida -= vida;
 
             }
@@ -229,29 +230,5 @@ public class FrozenThorne implements GameStateController {
     }
     
     
-    public void verificaColisaoComPortal(){
     
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.marrowgar.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 2 );
-             
-             }
-             }
-         
-           if(this.marrowgar.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 2 );
-        }
-        } 
-           
-              if(this.marrowgar.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 2 );
-        }
-        }
-    }
 }

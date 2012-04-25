@@ -211,7 +211,7 @@ public class DeathbringsRise implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(db.getRetangulo())) {
-                db.perdeVida(600000);
+                db.perdeVida(25000);
                 this.vida -= vida;
 
             }

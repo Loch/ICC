@@ -1,6 +1,7 @@
 package Mapas;
 
-import Boss.Marrowgar;
+
+import Boss.Syndragosa;
 import Modelo.Direcao;
 import Modelo.Heal;
 import Modelo.Healer;
@@ -23,7 +24,7 @@ public class FrostQueenLair implements GameStateController {
 
     private Hunter hunter;
     ArrayList<Magias> tirosJogador;
-    private Marrowgar marrowgar;
+    private Syndragosa syndragosa;
     private Healer healer;
     private Warrior warrior;
     private CenarioComColisaoCima cenario;
@@ -33,7 +34,7 @@ public class FrostQueenLair implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.marrowgar = new Marrowgar(300, 100, 2);
+        this.syndragosa = new Syndragosa(400, 20, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -44,7 +45,7 @@ public class FrostQueenLair implements GameStateController {
 
 
         try {
-            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/frostqueenlair.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -58,7 +59,7 @@ public class FrostQueenLair implements GameStateController {
 
     public void step(long timeElapsed) {
         this.hunter.step(timeElapsed);
-        this.marrowgar.step(timeElapsed);
+        this.syndragosa.step(timeElapsed);
         this.healer.step(timeElapsed);
         this.lancaTirosJogador();
         this.warrior.step(timeElapsed);
@@ -74,19 +75,19 @@ public class FrostQueenLair implements GameStateController {
         }
 
 
-        marrowgar.persegueObjetoMaisProximo(this.hunter, this.warrior);
+        syndragosa.persegueObjetoMaisProximo(this.hunter, this.warrior);
         healer.gmana();
         healer.rmana();
         healer.gvida();
 
         this.verificaColisoesComInimigos();
         this.verificaColisaoComTiros();
-        this.marrowgar.estaMorto();
-        this.verificaColisaoComPortal();
+        this.syndragosa.estaMorto();
+      
         
 
    if( this.warrior.temColisao( this.portal.getRetangulo()) && this.hunter.temColisao(this.portal.getRetangulo()) && this.healer.temColisao(this.portal.getRetangulo())){
-          GameEngine.getInstance().setNextGameStateController( 3 );
+          GameEngine.getInstance().setNextGameStateController( 10 );
          }
         
     }
@@ -100,7 +101,7 @@ public class FrostQueenLair implements GameStateController {
         this.portal.draw(g);
         this.hunter.draw(g);
         this.warrior.draw(g);
-        this.marrowgar.draw(g);
+        this.syndragosa.draw(g);
         this.healer.draw(g);
         for (Magias magia : this.tirosJogador) {
             magia.draw(g);
@@ -134,25 +135,25 @@ public class FrostQueenLair implements GameStateController {
 
         //Inimigo 1
 
-        if (this.marrowgar.estaMorto() || this.warrior.estaMorto()) {
+        if (this.syndragosa.estaMorto() || this.warrior.estaMorto()) {
             return;
 
         } else {
 
-            if (this.marrowgar.temColisao(this.warrior.getRetangulo())) {
+            if (this.syndragosa.temColisao(this.warrior.getRetangulo())) {
 
                 this.warrior.perdeVida(250);
-                this.marrowgar.perdeVida(500);
+                this.syndragosa.perdeVida(500);
                 this.vida -= vida;
 
             }
 
-            if (this.marrowgar.temColisao(this.hunter.getRetangulo())) {
+            if (this.syndragosa.temColisao(this.hunter.getRetangulo())) {
 
                 this.hunter.perdeVida(1000);
             }
             
-            if(this.healer.temColisao(this.marrowgar.getRetangulo())){
+            if(this.healer.temColisao(this.syndragosa.getRetangulo())){
             this.healer.perdeVida(1000);
             
             }
@@ -214,8 +215,8 @@ public class FrostQueenLair implements GameStateController {
 
 
         for (Magias flechas : this.tirosJogador) {
-            if (flechas.temColisao(marrowgar.getRetangulo())) {
-                marrowgar.perdeVida(600000);
+            if (flechas.temColisao(syndragosa.getRetangulo())) {
+                syndragosa.perdeVida(25000);
                 this.vida -= vida;
 
             }
@@ -227,29 +228,5 @@ public class FrostQueenLair implements GameStateController {
     }
     
     
-    public void verificaColisaoComPortal(){
     
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.marrowgar.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 2 );
-             
-             }
-             }
-         
-           if(this.marrowgar.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 2 );
-        }
-        } 
-           
-              if(this.marrowgar.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 2 );
-        }
-        }
-    }
 }

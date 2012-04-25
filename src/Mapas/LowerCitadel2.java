@@ -17,6 +17,7 @@ import javaPlay.GameEngine;
 import javaPlay.GameStateController;
 import javaPlay.Keyboard;
 import javaPlayExtras.CenarioComColisao;
+import javaPlayExtras.CenarioComColisaoCima;
 import javax.swing.JOptionPane;
 
 public class LowerCitadel2 implements GameStateController {
@@ -25,7 +26,7 @@ public class LowerCitadel2 implements GameStateController {
     ArrayList<Magias> tirosJogador;
     private Healer healer;
     private Warrior warrior;
-    private CenarioComColisao cenario;
+    private CenarioComColisaoCima cenario;
     private int vida = 2;
     private Lady lady;
     ArrayList<Heal> healJogador;
@@ -38,14 +39,16 @@ public class LowerCitadel2 implements GameStateController {
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
         this.healJogador = new ArrayList<Heal>();
-        this.portal = new Portal (500, 10);
+        this.portal = new Portal(500, 10);
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario/lowercitadel2.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel2.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
-
+        this.cenario.adicionaObjeto(this.healer);
+        this.cenario.adicionaObjeto(this.warrior);
+        this.cenario.adicionaObjeto(this.hunter);
 
     }
 
@@ -75,17 +78,17 @@ public class LowerCitadel2 implements GameStateController {
         this.verificaColisaoComTiros();
         this.lady.estaMorto();
 
-         if(this.lady.estaMorto()){
-         if( this.warrior.temColisao( this.portal.getRetangulo()) ){
-            if( this.hunter.temColisao(this.portal.getRetangulo())){
-                if(this.healer.temColisao(this.portal.getRetangulo()))
-          GameEngine.getInstance().setNextGameStateController( 3 );
-         }
-          }
+        if (this.lady.estaMorto()) {
+            if (this.warrior.temColisao(this.portal.getRetangulo())) {
+                if (this.hunter.temColisao(this.portal.getRetangulo())) {
+                    if (this.healer.temColisao(this.portal.getRetangulo())) {
+                        GameEngine.getInstance().setNextGameStateController(3);
+                    }
+                }
+            }
 
-         }
+        }
     }
-    
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
@@ -116,8 +119,8 @@ public class LowerCitadel2 implements GameStateController {
         this.hunter.setY(500);
         this.warrior.setX(440);
         this.warrior.setY(500);
-        
-        
+
+
     }
 
     public void unload() {
@@ -126,7 +129,7 @@ public class LowerCitadel2 implements GameStateController {
     public void stop() {
     }
 
-  private void verificaColisoesComInimigos() {
+    private void verificaColisoesComInimigos() {
 
         //Inimigo 1
 
@@ -147,10 +150,10 @@ public class LowerCitadel2 implements GameStateController {
 
                 this.hunter.perdeVida(1000);
             }
-            
-            if(this.healer.temColisao(this.lady.getRetangulo())){
-            this.healer.perdeVida(1000);
-            
+
+            if (this.healer.temColisao(this.lady.getRetangulo())) {
+                this.healer.perdeVida(1000);
+
             }
 
 
@@ -183,7 +186,7 @@ public class LowerCitadel2 implements GameStateController {
             if (this.healer.podeAtirar()) {
                 this.healJogador.add(this.healer.getMagia());
                 this.healer.mana();
-                        
+
             }
 
         }
@@ -211,7 +214,7 @@ public class LowerCitadel2 implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(lady.getRetangulo())) {
-                lady.perdeVida(600000);
+                lady.perdeVida(25000);
                 this.vida -= vida;
 
             }
@@ -221,31 +224,30 @@ public class LowerCitadel2 implements GameStateController {
 
 
     }
-    
-    
-    public void verificaColisaoComPortal(){
-    
-         if(this.portal.temColisao(this.hunter.getRetangulo())){
-             
-             if(this.lady.estaMorto()){
-             
-             GameEngine.getInstance().setNextGameStateController( 3 );
-             
-             }
-             }
-         
-           if(this.lady.estaMorto()){
-        if( this.warrior.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 3 );
+
+    public void verificaColisaoComPortal() {
+
+        if (this.portal.temColisao(this.hunter.getRetangulo())) {
+
+            if (this.lady.estaMorto()) {
+
+                GameEngine.getInstance().setNextGameStateController(3);
+
+            }
         }
-        } 
-           
-              if(this.lady.estaMorto()){
-        if( this.healer.temColisao( this.portal.getRetangulo())){
-            
-            GameEngine.getInstance().setNextGameStateController( 3 );
+
+        if (this.lady.estaMorto()) {
+            if (this.warrior.temColisao(this.portal.getRetangulo())) {
+
+                GameEngine.getInstance().setNextGameStateController(3);
+            }
         }
+
+        if (this.lady.estaMorto()) {
+            if (this.healer.temColisao(this.portal.getRetangulo())) {
+
+                GameEngine.getInstance().setNextGameStateController(3);
+            }
         }
     }
 }

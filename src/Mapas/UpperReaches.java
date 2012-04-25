@@ -17,6 +17,7 @@ import javaPlay.GameEngine;
 import javaPlay.GameStateController;
 import javaPlay.Keyboard;
 import javaPlayExtras.CenarioComColisao;
+import javaPlayExtras.CenarioComColisaoCima;
 import javax.swing.JOptionPane;
 
 public class UpperReaches implements GameStateController {
@@ -26,14 +27,14 @@ public class UpperReaches implements GameStateController {
     private Festergut festergut;
     private Healer healer;
     private Warrior warrior;
-    private CenarioComColisao cenario;
+    private CenarioComColisaoCima cenario;
     private int vida = 2;
     ArrayList<Heal> healJogador;
     Portal portal;
 
     public void load() {
         this.hunter = new Hunter();
-        this.festergut = new Festergut(300, 100, 2);
+        this.festergut = new Festergut(400, 200, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -41,10 +42,14 @@ public class UpperReaches implements GameStateController {
         this.portal = new Portal(800, 200);
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario/Upperreaches.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/Upperreaches.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
+        
+         this.cenario.adicionaObjeto(this.healer);
+        this.cenario.adicionaObjeto(this.warrior);
+        this.cenario.adicionaObjeto(this.hunter);
 
 
     }
@@ -214,7 +219,7 @@ public class UpperReaches implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(festergut.getRetangulo())) {
-                festergut.perdeVida(600000);
+                festergut.perdeVida(25000);
                 this.vida -= vida;
 
             }

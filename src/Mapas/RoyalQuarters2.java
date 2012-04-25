@@ -35,7 +35,7 @@ public class RoyalQuarters2 implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.blood = new Queen(500, 50, 2);
+        this.blood = new Queen(400, 40, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -220,7 +220,7 @@ public class RoyalQuarters2 implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(blood.getRetangulo())) {
-                blood.perdeVida(600000);
+                blood.perdeVida(25000);
                 this.vida -= vida;
 
             }

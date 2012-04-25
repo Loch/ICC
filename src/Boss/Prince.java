@@ -22,7 +22,7 @@ public class Prince extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/boss/prince.png", 1, 200, 275);
+            this.sprite = new Sprite("resources/boss/prince.png", 2, 200, 275);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

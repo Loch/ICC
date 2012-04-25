@@ -22,7 +22,7 @@ public class Queen extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/boss/blood.png", 1, 250, 200);
+            this.sprite = new Sprite("resources/boss/blood.png", 2, 250, 200);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

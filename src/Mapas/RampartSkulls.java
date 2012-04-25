@@ -217,7 +217,7 @@ public class RampartSkulls implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(marrowgar.getRetangulo())) {
-                marrowgar.perdeVida(600000);
+                marrowgar.perdeVida(25000);
                 this.vida -= vida;
 
             }

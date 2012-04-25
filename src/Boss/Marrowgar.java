@@ -2,8 +2,11 @@ package Boss;
 
 import Modelo.ObjetoComMovimento;
 import java.awt.Color;
+import Boss.AtaqueBoss;
+import Modelo.Magias;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 import javaPlay.GameEngine;
 import javaPlay.GameObject;
 import javaPlay.Keyboard;
@@ -14,6 +17,8 @@ public class Marrowgar extends ObjetoComMovimento {
     Sprite sprite;
     int velocidade;
     int vidas;
+    AtaqueBoss ataque;
+    
 
     public Marrowgar(int x, int y, int velocidade) {
 
@@ -21,6 +26,7 @@ public class Marrowgar extends ObjetoComMovimento {
         this.velocidade = 2;
         this.x = x;
         this.y = y;
+       
         try {
             this.sprite = new Sprite("resources/boss/marrowgar.png", 1, 250, 200);
         } catch (Exception ex) {
@@ -50,8 +56,58 @@ public class Marrowgar extends ObjetoComMovimento {
     }
 
     public Rectangle getRetangulo() {
-        return new Rectangle(this.x, this.y, 150, 100);
+        return new Rectangle(this.x, this.y, 250, 200);
     }
+    
+   public AtaqueBoss getFogo(){
+        //O tiro pode sair de qualquer um dos oito lados.
+        //E o x e y inicial do tiro podem sempre ser diferentes
+
+        int xTiro = this.x;
+        int yTiro = this.y;
+        int tamanhoNave = 100;
+        int metadeNave = tamanhoNave / 2;
+                
+        switch(this.direcao){
+            case DIREITA:
+                xTiro += tamanhoNave;
+                yTiro += metadeNave;
+                break;
+            case ESQUERDA:
+                yTiro += metadeNave;
+                break;
+            case CIMA:
+                xTiro += metadeNave;
+                break;
+            case BAIXO:
+                xTiro += metadeNave;
+                yTiro += tamanhoNave;
+                break;
+            case DIREITA_CIMA:                
+                xTiro += tamanhoNave;
+                break;
+            case DIREITA_BAIXO:
+                xTiro += tamanhoNave;
+                yTiro += tamanhoNave;
+                break;
+            case ESQUERDA_CIMA:                
+                break;
+            case ESQUERDA_BAIXO:                
+                yTiro += tamanhoNave;
+                break;
+        }
+
+        
+        return new AtaqueBoss(xTiro, yTiro, this.direcao);
+    }
+    
+    
+       
+    
+    
+    
+    
+    
 
     public void persegueObjetoMaisProximo(GameObject objeto1, GameObject objeto2) {
             double distanciaObjeto1 = this.calculaDistanciaAte(objeto1);

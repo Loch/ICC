@@ -22,7 +22,7 @@ public class Deathbringer extends ObjetoComMovimento {
         this.x = x;
         this.y = y;
         try {
-            this.sprite = new Sprite("resources/db.png", 1, 150, 250);
+            this.sprite = new Sprite("resources/boss/db.png", 2, 155, 220);
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }

@@ -34,7 +34,7 @@ public class RoyalQuarters implements GameStateController {
 
     public void load() {
         this.hunter = new Hunter();
-        this.prince = new Prince(300, 100, 2);
+        this.prince = new Prince(400, 70, 2);
         this.healer = new Healer();
         this.tirosJogador = new ArrayList<Magias>();
         this.warrior = new Warrior();
@@ -45,7 +45,7 @@ public class RoyalQuarters implements GameStateController {
 
 
         try {
-            this.cenario = new CenarioComColisaoCima("resources/cenario/lowercitadel.scn");
+            this.cenario = new CenarioComColisaoCima("resources/cenario/royalquarters.scn");
         } catch (Exception ex) {
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
@@ -218,7 +218,7 @@ public class RoyalQuarters implements GameStateController {
 
         for (Magias flechas : this.tirosJogador) {
             if (flechas.temColisao(prince.getRetangulo())) {
-                prince.perdeVida(600000);
+                prince.perdeVida(25000);
                 this.vida -= vida;
 
             }
